@@ -1,6 +1,5 @@
-﻿function jsonAPI() {
-    return [];
-}
+﻿var loader_frm;
+
 function layoutRender() {
     var tbHeader = new $.Deferred()
     var tbData = new $.Deferred()
@@ -72,7 +71,7 @@ function workScreen() {
     jsonTable.fromJSON(tableData);
     //
     $('#dulieu').css('display', '');
-    $('.loader_frm').css('display', 'none');
+    loader_frm = $('.loader_frm').detach();
 
     //
     var $el = $(".table-responsive");
