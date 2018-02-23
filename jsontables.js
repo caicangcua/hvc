@@ -1,4 +1,7 @@
-﻿function layoutRender() {
+﻿function jsonAPI() {
+    return [];
+}
+function layoutRender() {
     var tbHeader = new $.Deferred()
     var tbData = new $.Deferred()
     //
