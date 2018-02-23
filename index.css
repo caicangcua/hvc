@@ -1,0 +1,238 @@
+﻿
+/* Generic styling */
+html {
+    /* font-size is 100% (16px | 1em) - which is default so unstated */
+}
+
+/* Generic styling */
+body {
+    /* template overrides */
+    font-size: 1rem;
+    max-width: none;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+
+
+
+/*
+            @media (min-width: $min-viewport-width) {
+                :root {
+                    $font-size-difference: $max-font-size - $min-font-size;
+                    $viewport-width-difference: $max-viewport-width - $min-viewport-width;
+                    font-size: calc(100% + ((1vw - #{$min-viewport-width / 100}) * #{100 * $font-size-difference / $viewport-width-difference}));
+                }
+            }
+
+            // Stop font scaling above $max-viewport-width
+            @media (min-width: $max-viewport-width) {
+                :root {
+                    font-size: $max-font-size;
+                }
+        }
+
+        */
+
+.head2 {
+    font-size: 16px;
+}
+
+.thoigian {
+    font-size: .65rem;
+    height: calc(25px + ((1vw - 0.2px) * (100* 0.046875))) !important;
+    line-height: calc(25px + ((1vw - 0.2px) * (100* 0.046875))) !important;
+}
+
+.solieu {
+    font-size: 1.1rem;
+    height: calc(30px + ((1vw - 0.2px) * (100* 0.046875))) !important;
+    line-height: calc(30px + ((1vw - 0.2px) * (100* 0.046875))) !important;
+}
+
+
+@media (min-width: 20em) {
+    :root {
+        font-size: calc(1rem + ((1vw - 0.2em) * (100* 0.06)));
+    }
+
+    .head2 {
+        font-size: .5rem;
+    }
+
+    .thoigian {
+        font-size: .65rem;
+        height: calc(25px + ((1vw - 0.2px) * (100* 0.046875))) !important;
+        line-height: calc(25px + ((1vw - 0.2px) * (100* 0.046875))) !important;
+    }
+
+    .solieu {
+        font-size: 1.1rem;
+        height: calc(30px + ((1vw - 0.2px) * (100* 0.046875))) !important;
+        line-height: calc(30px + ((1vw - 0.2px) * (100* 0.046875))) !important;
+    }
+}
+
+/*Stop font scaling above $max-viewport-width 120em=1920px*/
+@media (min-width: 120em) {
+    :root {
+        font-size: 7rem;
+    }
+
+    .head2 {
+        font-size: .5rem;
+    }
+
+    .thoigian {
+        font-size: .65rem;
+        height: 130px !important;
+        line-height: 130px !important;
+    }
+
+    .solieu {
+        font-size: 1.1rem;
+        height: 170px !important;
+        line-height: 170px !important;
+    }
+
+    #content tr td {
+        height: 300px !important;
+        border-bottom: 5px solid gray !important;
+    }
+}
+
+.warnFirefox {
+    display: none;
+}
+
+.isFirefox .warnFirefox {
+    display: block;
+    font-weight: bold;
+    text-align: center;
+}
+
+[id^="report"] {
+    color: #ed0;
+    font-size: 12px !important;
+    display: none;
+}
+
+[id="report1"] {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #1a1a1a;
+    text-indent: .618rem;
+}
+
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    width: 18%;
+}
+
+    td:first-child {
+        width: 28%;
+        padding: 10px;
+    }
+
+#tbhead {
+    text-align: center;
+    border-bottom: 2px solid blue;
+    border-top: none;
+    background-color: #e2e2e2 !important;
+    background-image: linear-gradient(top, #7FD2FF, #45A8DF) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7FD2FF', endColorstr='#45A8DF') !important;
+    -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7FD2FF', endColorstr='#45A8DF') !important;
+    background: -ms-linear-gradient(top, #7FD2FF, #45A8DF) !important;
+    background: -moz-linear-gradient(top, #7FD2FF, #45A8DF) !important;
+    background: -o-linear-gradient(top, #7FD2FF, #45A8DF) !important;
+    background: -webkit-linear-gradient(top, #7FD2FF, #45A8DF) !important;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #7FD2FF), color-stop(1, #45A8DF)) !important;
+}
+
+#content {
+    text-align: right;
+    margin: 5px 0px;
+}
+
+    #content tr td {
+        /*height: 300px;*/
+        border-bottom: 2px solid gray;
+    }
+
+        #content tr td:first-child {
+            text-align: right;
+            color: #666;
+        }
+
+
+
+    #content tr:nth-child(odd) td:nth-child(odd) {
+        background-color: #e3e3e3 !important;
+    }
+
+    #content tr:nth-child(even) td:nth-child(odd) {
+        background-color: #f6f6f6 !important;
+    }
+
+    #content tr:nth-child(odd) td:nth-child(even) {
+        background-color: #ebebeb !important;
+    }
+
+    #content tr:nth-child(even) td:nth-child(even) {
+        background-color: #ffffff !important;
+    }
+
+#tieude td:nth-child(2) {
+    background: #faab00 !important;
+    color: white;
+}
+
+#tieude td:nth-child(3) {
+    background: #9bba0d !important;
+    color: white;
+}
+
+#tieude td:nth-child(4) {
+    background: #539a2d !important;
+    color: white;
+}
+
+#tieude td:nth-child(5) {
+    background: #268061 !important;
+    color: white;
+}
+
+.table-responsive {
+    height: 10px;
+    overflow-y: hidden;
+    position: relative;
+    bottom: 0px;
+}
+
+    .table-responsive:hover {
+        border-color: red;
+    }
+
+.thoigian {
+    color: #666;
+    text-align: center !important;
+    border-bottom: 1px dashed red;
+}
+
+.plus {
+    color: blue;
+}
+
+.minus {
+    color: red;
+}
