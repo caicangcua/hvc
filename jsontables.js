@@ -71,6 +71,8 @@ function workScreen() {
     }];
     jsonTable.fromJSON(tableData);
     //
+    $('#dulieu').css('display', '');
+    //
     var $el = $(".table-responsive");
 
     function anim() {
