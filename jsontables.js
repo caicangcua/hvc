@@ -72,6 +72,8 @@ function workScreen() {
     jsonTable.fromJSON(tableData);
     //
     $('#dulieu').css('display', '');
+    $('#loader_frm').css('display', 'none');
+
     //
     var $el = $(".table-responsive");
 
