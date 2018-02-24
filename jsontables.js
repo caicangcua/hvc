@@ -136,6 +136,7 @@ function workScreen() {
     });
 
     $(window).trigger('resize');
+    that.start_noty_timer();//check new data from server API
 }
 
 
