@@ -101,7 +101,9 @@ body {
         height: 300px !important;
         border-bottom: 5px solid gray !important;
     }
+}
 
+@media (min-width: 100em) {
     #toast-container {
         font-size: 0.5rem !important;
     }
