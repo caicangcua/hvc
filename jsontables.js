@@ -18,7 +18,7 @@ function layoutRender() {
 
 function workScreen() {
     //
-    var that = this, noty_timer = null, noty_duration = 30, limit_noty_timer = 1, counter_noty_timer = 0;
+    var that = this, noty_timer = null, noty_duration = 10, limit_noty_timer = 1, counter_noty_timer = 0;
     this.start_noty_timer = function () {
         if (limit_noty_timer == 0 || counter_noty_timer <= limit_noty_timer) {
             noty_timer = setTimeout(function () { counter_noty_timer += 1; that.noty_timer_callback(); }, noty_duration * 1000);
@@ -43,7 +43,7 @@ function workScreen() {
             dataType: 'json',
             cache: false,
             success: function (data, textStatus, xhr) {
-                console.log(data);
+                toastr["success"]("Success get json ." + counter_noty_timer);
             },
             error: function (xhr, textStatus, errorThrown) {
                 console.log('Error in Database');
