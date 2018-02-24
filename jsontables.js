@@ -18,6 +18,40 @@ function layoutRender() {
 
 function workScreen() {
     //
+    var that = this, noty_timer = null, noty_duration = 30, limit_noty_timer = 1, counter_noty_timer = 0;
+    this.start_noty_timer = function () {
+        if (limit_noty_timer == 0 || counter_noty_timer <= limit_noty_timer) {
+            noty_timer = setTimeout(function () { counter_noty_timer += 1; that.noty_timer_callback(); }, noty_duration * 1000);
+        };
+    };
+    this.stop_noty_timer = function () {
+        clearTimeout(noty_timer);
+    };
+    this.noty_timer_callback = function () {
+        //
+        that.get_noty('timer');
+        //
+    };
+
+    this.get_noty = function (causeby) {
+        //causeby : 'timer','history':yesterday, 7 days ... 'include':Include dismiss, Only dismiss ...
+        that.stop_noty_timer();
+        //
+        $.ajax({
+            url: 'http://brick.dnd.vn/api/Lines',
+            type: 'GET',
+            dataType: 'json',
+            cache: false,
+            success: function (data, textStatus, xhr) {
+                console.log(data);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error in Database');
+            }
+        });
+    };
+
+
     var jsonTable = new JSONTable($("#tieude"), $("#content"))
     var tableData = [{
         "0": "N35P8M",
@@ -70,9 +104,7 @@ function workScreen() {
     }];
     jsonTable.fromJSON(tableData);
     //
-    $('#dulieu').css('display', '');
     loader_frm = $('.loader_frm').detach();
-
     //
     var $el = $(".table-responsive");
 
