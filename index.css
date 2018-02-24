@@ -103,16 +103,6 @@ body {
     }
 }
 
-@media (min-width: 100em) {
-    #toast-container {
-        font-size: 0.5rem !important;
-    }
-
-        #toast-container > div {
-            width:600px!important;
-        }
-}
-
 .warnFirefox {
     display: none;
 }
