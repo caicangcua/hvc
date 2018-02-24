@@ -100,6 +100,10 @@ body {
         height: 300px !important;
         border-bottom: 5px solid gray !important;
     }
+
+    #toast-container {
+        font-size: 1rem;
+    }
 }
 
 .warnFirefox {
