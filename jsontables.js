@@ -1,4 +1,4 @@
-﻿var loader_frm;
+﻿var loader_frm, url_noty = 'http://brick.dnd.vn/api/Lines';
 
 function layoutRender() {
     var tbHeader = new $.Deferred()
@@ -9,7 +9,9 @@ function layoutRender() {
     $.when(tbHeader.promise(), tbData.promise()).done(function (data1, data2) {
         console.log("data1 = ", data1);
         console.log("data2 = ", data2);
-
+        if (typeof debugurl_noty === 'function') {
+            url_noty = debugurl_noty();
+        };
         workScreen();
     });
 
@@ -38,7 +40,7 @@ function workScreen() {
         that.stop_noty_timer();
         //
         $.ajax({
-            url: 'http://brick.dnd.vn/api/Lines',
+            url: url_noty,
             type: 'GET',
             dataType: 'json',
             cache: false,
