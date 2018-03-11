@@ -59,10 +59,10 @@ function workScreen() {
             url: url_noty,
             type: "POST",
             data: {
-                "name": uname,
-                "username": uloginname,
-                "email": uemail,
-                "password": upwd
+                "name": 'uname',
+                "username": 'uloginname',
+                "email": 'uemail',
+                "password": 'upwd'
             },
             dataType: 'json',
             cache: false,
