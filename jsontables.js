@@ -39,12 +39,34 @@ function workScreen() {
         //causeby : 'timer','history':yesterday, 7 days ... 'include':Include dismiss, Only dismiss ...
         that.stop_noty_timer();
         //
+        //$.ajax({
+        //    url: url_noty,
+        //    type: 'GET',
+        //    dataType: 'json',
+        //    cache: false,
+        //    timeout:3000, //3 second timeout
+        //    success: function (data, textStatus, xhr) {
+        //        that.start_noty_timer();
+        //        toastr["success"]("Get json success." + counter_noty_timer);
+        //    },
+        //    error: function (xhr, textStatus, errorThrown) {
+        //        that.start_noty_timer();
+        //        toastr["error"]("Get json error." + counter_noty_timer);
+        //    }
+        //});
+
         $.ajax({
             url: url_noty,
-            type: 'GET',
+            type: "POST",
+            data: {
+                "name": uname,
+                "username": uloginname,
+                "email": uemail,
+                "password": upwd
+            },
             dataType: 'json',
             cache: false,
-            timeout:3000, //3 second timeout
+            timeout: 3000, //3 second timeout
             success: function (data, textStatus, xhr) {
                 that.start_noty_timer();
                 toastr["success"]("Get json success." + counter_noty_timer);
@@ -54,6 +76,7 @@ function workScreen() {
                 toastr["error"]("Get json error." + counter_noty_timer);
             }
         });
+
     };
 
 
