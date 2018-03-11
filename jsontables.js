@@ -59,10 +59,8 @@ function workScreen() {
             url: url_noty,
             type: "POST",
             data: {
-                "name": 'uname',
-                "username": 'uloginname',
-                "email": 'uemail',
-                "password": 'upwd'
+                "hostid": hostID,
+                "hostip": hostIP
             },
             dataType: 'json',
             cache: false,
