@@ -44,6 +44,7 @@ function workScreen() {
             type: 'GET',
             dataType: 'json',
             cache: false,
+            timeout:3000, //3 second timeout
             success: function (data, textStatus, xhr) {
                 that.start_noty_timer();
                 toastr["success"]("Get json success." + counter_noty_timer);
