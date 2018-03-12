@@ -59,6 +59,7 @@ function workScreen() {
             url: url_noty,
             type: "POST",
             data: {
+                "kind": 'androidbox',
                 "hostid": hostID,
                 "hostip": hostIP
             },
