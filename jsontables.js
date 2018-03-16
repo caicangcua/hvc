@@ -68,11 +68,19 @@ function workScreen() {
             timeout: 3000, //3 second timeout
             success: function (data, textStatus, xhr) {
                 that.start_noty_timer();
-                toastr["success"]("Get json success." + counter_noty_timer);
+                if (data == null) {
+                    toastr["warning"]("Data return null." + counter_noty_timer);
+                } else {
+                    if (data['huybo'] == '1') {
+                        toastr["warning"]("Device 'Huy Bo'." + counter_noty_timer);
+                    } else if (data['sendtest'] == '1') {
+                        toastr["success"](data['msgtest'] + counter_noty_timer);
+                    };
+                };
             },
             error: function (xhr, textStatus, errorThrown) {
                 that.start_noty_timer();
-                toastr["error"]("Get json error." + counter_noty_timer);
+                toastr["error"]("Server API ERR." + counter_noty_timer);
             }
         });
 
