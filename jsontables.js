@@ -69,18 +69,20 @@ function workScreen() {
             success: function (data, textStatus, xhr) {
                 that.start_noty_timer();
                 if (data == null) {
-                    toastr["warning"]("Data return null." + counter_noty_timer);
+                    toastr["warning"]("Data return null. (" + counter_noty_timer) + ')';
                 } else {
-                    if (data['HuyBo'] == '1') {
-                        toastr["warning"]("Device 'Huy Bo'." + counter_noty_timer);
-                    } else if (data['SendTest'] == '1') {
-                        toastr["success"](data['MsgTest'] + ' (' + counter_noty_timer + ')');
+                    if (data['SendTest'] == '1') {
+                        if (data['HuyBo'] == '1') {
+                            toastr["warning"]("Device 'Huy Bo'. (" + counter_noty_timer) + ')';
+                        } else {
+                            toastr["success"](data['MsgTest'] + ' (' + counter_noty_timer + ')');
+                        };
                     };
                 };
             },
             error: function (xhr, textStatus, errorThrown) {
                 that.start_noty_timer();
-                toastr["error"]("Server API ERR." + counter_noty_timer);
+                toastr["error"]("Server API ERR. (" + counter_noty_timer + ')');
             }
         });
 
