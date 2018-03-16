@@ -71,10 +71,10 @@ function workScreen() {
                 if (data == null) {
                     toastr["warning"]("Data return null." + counter_noty_timer);
                 } else {
-                    if (data['huybo'] == '1') {
+                    if (data['HuyBo'] == '1') {
                         toastr["warning"]("Device 'Huy Bo'." + counter_noty_timer);
-                    } else if (data['sendtest'] == '1') {
-                        toastr["success"](data['msgtest'] + counter_noty_timer);
+                    } else if (data['SendTest'] == '1') {
+                        toastr["success"](data['MsgTest'] + counter_noty_timer);
                     };
                 };
             },
