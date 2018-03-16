@@ -61,7 +61,8 @@ function workScreen() {
             data: {
                 "kind": 'androidbox',
                 "hostid": hostID,
-                "hostip": hostIP
+                "hostip": hostIP,
+                "hostmodel": hostNAME
             },
             dataType: 'json',
             cache: false,
