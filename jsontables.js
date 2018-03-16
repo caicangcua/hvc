@@ -74,7 +74,7 @@ function workScreen() {
                     if (data['HuyBo'] == '1') {
                         toastr["warning"]("Device 'Huy Bo'." + counter_noty_timer);
                     } else if (data['SendTest'] == '1') {
-                        toastr["success"](data['MsgTest'] + counter_noty_timer);
+                        toastr["success"](data['MsgTest'] + '(' + counter_noty_timer + ')');
                     };
                 };
             },
