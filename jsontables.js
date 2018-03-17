@@ -187,8 +187,8 @@ function CreateTableFromJSON(tbHeader) {
                 "</td>" +
                 "</tr>" +
             "<tbody id='tieude'><tr class='head2'>" +
-                "<td style='position:absolute'>" +
-                    "MÃ HÀNG<div class='loading'><div class='round-trip off'></div><div class='open-jaw off'></div><div class='one-way off'></div></div>" +                        
+                "<td style='position:relative'>" +
+                    "<div class='loading'><div class='round-trip off'></div><div class='open-jaw off'></div><div class='one-way off'></div></div>MÃ HÀNG" +                        
                 "</td>" +
                 "<td>" +
                     "K.HOẠCH" +
