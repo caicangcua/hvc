@@ -183,12 +183,12 @@ function CreateTableFromJSON(tbHeader) {
     var newsec = $("<table id='tbhead'>" +
             "<tr>" +
                 "<td id='head1' class='head1' colspan='5' style='text-align:center'>" +
-                    "<div class='nomachine'><h1>NO CUTTING MACHINE</h1></div>" +
+                    "<div class='nomachine'><h1>...</h1></div>" +
                 "</td>" +
                 "</tr>" +
             "<tbody id='tieude'><tr class='head2'>" +
                 "<td style='position:relative'>" +
-                    "<div class='loading'><div class='round-trip off'></div><div class='open-jaw off'></div><div class='one-way off'></div></div>MÃ HÀNG" +                        
+                    "<div class='loading'><div class='round-trip'></div><div class='open-jaw'></div><div class='one-way'></div></div>MÃ HÀNG" +                        
                 "</td>" +
                 "<td>" +
                     "K.HOẠCH" +
