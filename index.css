@@ -63,7 +63,7 @@ body {
     }
 
     .thoigian {
-        font-size: .60rem;
+        font-size: .55rem;
         height: calc(25px + ((1vw - 0.2px) * (100* 0.046875))) !important;
         line-height: calc(25px + ((1vw - 0.2px) * (100* 0.046875))) !important;
     }
@@ -86,7 +86,7 @@ body {
     }
 
     .thoigian {
-        font-size: .60rem;
+        font-size: .55rem;
         height: 130px !important;
         line-height: 130px !important;
     }
