@@ -238,3 +238,23 @@ td {
 .minus {
     color: red;
 }
+
+#nodataMsg {
+    background-color: #11a9e2;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0d86b3), to(#11a9e2));
+    background-image: -moz-linear-gradient(#0d86b3, #11a9e2);
+    background-repeat: no-repeat;
+    padding: 50px;
+    font-size: 2rem;
+    position: relative;
+    float: left;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.loading div.off {
+    -moz-animation-name: none;
+    -webkit-animation-name: none;
+    -ms-animation-name: none;
+    animation-name: none;
+}
