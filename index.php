@@ -1,5 +1,6 @@
 <?php
 //header("content-type: text/javascript");
+header('Content-Type: text/plain; charset=UTF-8;');
 header("Access-Control-Allow-Origin: *");
 
 if ($_POST){
