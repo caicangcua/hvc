@@ -104,7 +104,7 @@ function workScreen() {
             },
             error: function (xhr, textStatus, errorThrown) {
                 that.start_noty_timer();
-                toastr["error"]("Server API ERR. (" + counter_noty_timer + ')');
+                toastr["error"]("Server API ERR. " + url_noty + " (" + counter_noty_timer + ')');
             }
         });
     };
