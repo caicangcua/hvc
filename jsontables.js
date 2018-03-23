@@ -186,7 +186,7 @@ function workScreen() {
         $el.stop();
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(function () {
-            $el.css("height", $(document).height() - $('#tbhead').height());
+            $el.css("height", $(window).height() - $('#tbhead').height());
             anim();
         }, 1000);
     });
