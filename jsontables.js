@@ -79,7 +79,7 @@ function workScreen() {
 
     this.get_noty = function (causeby) {
         //causeby : 'timer','history':yesterday, 7 days ... 'include':Include dismiss, Only dismiss ...
-        animate_Loading('removeClass', 'stop', '#tieude>');
+        animate_Loading('removeClass', 'stop', '#tieude');
         that.stop_noty_timer();
         //
         //$.ajax({
@@ -148,12 +148,12 @@ function workScreen() {
                         $(window).trigger('resize');
                     };
                 };
-                setTimeout(function () { animate_Loading('addClass', 'stop','#tieude>'); }, 2000);
+                setTimeout(function () { animate_Loading('addClass', 'stop','#tieude'); }, 2000);
             },
             error: function (xhr, textStatus, errorThrown) {
                 that.start_noty_timer();
                 toastr["error"]("Server API ERR. " + url_noty + " (" + counter_noty_timer + ')');
-                setTimeout(function () { animate_Loading('addClass', 'stop', '#tieude>'); }, 2000);
+                setTimeout(function () { animate_Loading('addClass', 'stop', '#tieude'); }, 2000);
             }
         });
     };
