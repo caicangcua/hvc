@@ -252,6 +252,7 @@ td {
     /*left: 50%;*/
     /*transform: translate(-50%, -50%);*/
     transform: translateY(-50%);
+    transition-duration: 0s;
     text-align:center;
     left:0px;
     right:0px;
