@@ -277,7 +277,7 @@ function JSONTable(mapHeader, tableObject) {
                 var tableDataRow = $("<tr id='" + taskID + "'></tr>");
                 for (var ki = 0; ki < tableHeaderArray.length; ki++) {
                     if (ki == 0) {
-                        tableDataRow.append('<td>' + jsonSourceData[jr]['C' + tableHeaderArray[ki]] + '<div class="half-circle-ribbon">CT:08810<br/>Dài 4.0101M<br/>10 Lớp<br/>VẢi:7041A00R</div></td>');
+                        tableDataRow.append('<td><div class="half-circle-ribbon">CT:08810<br/>Dài 4.0101M<br/>10 Lớp<br/>VẢi:7041A00R</div><div>' + jsonSourceData[jr]['C' + tableHeaderArray[ki]] + '</div></td>');
                     } else {
                         var _val = jsonSourceData[jr]['C' + tableHeaderArray[ki]].split('|');
                         var color = ''; if (ki == 2) { color = "style='color:blue'" };
