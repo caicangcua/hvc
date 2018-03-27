@@ -55,7 +55,7 @@ body {
 .half-circle-ribbon {
     background: gray;
     color: #FFF;
-    max-height: 65%;
+    /*max-height: 65%;*/
     width: 75%;
     /* text-align: right; */
     padding-top: 10px;
