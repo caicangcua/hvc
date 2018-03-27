@@ -55,12 +55,12 @@ body {
 .half-circle-ribbon {
     background: gray;
     color: #FFF;
-    height: 65%;
+    max-height: 65%;
     width: 75%;
     /* text-align: right; */
     padding-top: 10px;
     padding-right: 0px;
-    position: relative;
+    position: absolute;
     bottom: 0px;
     left: 1px;
     flex-direction: row;
@@ -70,10 +70,12 @@ body {
     vertical-align: bottom;
     text-align: left;
     font-size: 0.5rem;
+    z-index:9;
 }
 .tasklabel {
-    position:absolute;
+    position:relative;
     top:0px;
+    z-index:10;
 }
 
 @media (min-width: 20em) {
