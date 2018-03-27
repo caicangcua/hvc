@@ -71,6 +71,9 @@ body {
     text-align: left;
     font-size: 0.5rem;
 }
+.tasklabel {
+    position:absolute;
+}
 
 @media (min-width: 20em) {
     :root {
