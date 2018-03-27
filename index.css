@@ -60,7 +60,7 @@ body {
     /* text-align: right; */
     padding-top: 10px;
     padding-right: 0px;
-    /*position: absolute;*/
+    position: relative;
     bottom: 0px;
     left: 1px;
     flex-direction: row;
