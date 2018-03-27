@@ -37,7 +37,7 @@ body {
 
 .head2 {
     font-size: 16px;
-    font-weight:bold;
+    font-weight: bold;
 }
 
 .thoigian {
@@ -52,6 +52,25 @@ body {
     line-height: calc(30px + ((1vw - 0.2px) * (100* 0.046875))) !important;
 }
 
+.half-circle-ribbon {
+    background: gray;
+    color: #FFF;
+    height: 65%;
+    width: 75%;
+    /* text-align: right; */
+    padding-top: 10px;
+    padding-right: 0px;
+    position: absolute;
+    bottom: 0px;
+    left: 1px;
+    flex-direction: row;
+    border-radius: 0 100% 0 0;
+    border: 1px dashed #FFF;
+    box-shadow: 0 0 0 3px #EA4335;
+    vertical-align: bottom;
+    text-align: left;
+    font-size: 0.5rem;
+}
 
 @media (min-width: 20em) {
     :root {
@@ -72,6 +91,10 @@ body {
         font-size: 1.1rem;
         height: calc(30px + ((1vw - 0.2px) * (100* 0.046875))) !important;
         line-height: calc(30px + ((1vw - 0.2px) * (100* 0.046875))) !important;
+    }
+
+    .half-circle-ribbon {
+        font-size: 0.35rem;
     }
 }
 
@@ -143,7 +166,7 @@ td {
     td:first-child {
         width: 28%;
         padding-right: 10px;
-        font-size:0.8rem;
+        font-size: 0.8rem;
     }
 
 #tbhead {
@@ -175,7 +198,7 @@ td {
             text-align: right;
             color: #666;
             vertical-align: top;
-            position:relative;
+            position: relative;
         }
 
 
@@ -255,10 +278,11 @@ td {
     /*transform: translate(-50%, -50%);*/
     transform: translateY(-50%);
     transition-duration: 0s;
-    text-align:center;
-    left:0px;
-    right:0px;
+    text-align: center;
+    left: 0px;
+    right: 0px;
 }
+
 .loading div.off {
     -moz-animation-name: none;
     -webkit-animation-name: none;
