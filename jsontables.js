@@ -279,7 +279,7 @@ function JSONTable(mapHeader, tableObject) {
                     if (ki == 0) {
                         var _taskInfo = jsonSourceData[jr]['C' + tableHeaderArray[ki]].split('|');
                         tableDataRow.append('<td><div class="tasklabel">' + _taskInfo[0] +
-                            '</div><div class="half-circle-ribbon">Lớp:' + _taskInfo[2] + '<br/>Dài ???M<br/>CT:' + _taskInfo[1] + '<br/>VẢI:' + _taskInfo[3] + '</div></td>');
+                            '</div><div class="half-circle-ribbon">Lớp: ' + _taskInfo[2] + '<br/>Dài: ???M<br/>CT: ' + _taskInfo[1] + '<br/>VẢI: ' + _taskInfo[3] + '</div></td>');
                     } else {
                         var _val = jsonSourceData[jr]['C' + tableHeaderArray[ki]].split('|');
                         var color = ''; if (ki == 2) { color = "style='color:blue'" };
