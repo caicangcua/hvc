@@ -73,6 +73,7 @@ body {
 }
 .tasklabel {
     position:absolute;
+    top:0px;
 }
 
 @media (min-width: 20em) {
