@@ -73,7 +73,7 @@ body {
     z-index:9;
 }
 .tasklabel {
-    position:relative;
+    position:absolute;
     top:0px;
     z-index:10;
 }
