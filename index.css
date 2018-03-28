@@ -171,11 +171,11 @@ td {
     width: 18%;
 }
 
-    td:first-child, th:first-child {
+    /*td:first-child, th:first-child {
         width: 28%;
         padding-right: 10px;
         font-size: 0.7rem;
-    }
+    }*/
 
 #tbhead {
     text-align: center;
