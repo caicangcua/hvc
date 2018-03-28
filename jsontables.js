@@ -169,7 +169,7 @@ function workScreen() {
         var dogH = $el.innerHeight();
         var sb = $el.prop("scrollHeight") - $el.innerHeight();
         if (sb > 10) {
-            $el.animate({ scrollTop: st < sb / 2 ? sb : 0 }, sb * 30, 'linear', anim);
+            $el.animate({ scrollTop: st < sb / 2 ? sb : 0 }, sb * 50, '', anim);
         } else {
             $el.scrollTop(0);
         }
