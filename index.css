@@ -104,6 +104,10 @@ body {
     .half-circle-ribbon {
         font-size: 0.35rem;
     }
+
+    .theplan h1 {
+        font-size: 0.5rem;
+    }
 }
 
 /*Stop font scaling above $max-viewport-width 120em=1920px*/
