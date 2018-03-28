@@ -202,7 +202,8 @@ td {
 
         #content tr td:first-child {
             text-align: right;
-            color: #666;
+            /*color: #666;*/
+            color:green;
             vertical-align: top;
             position: relative;
         }
