@@ -203,7 +203,7 @@ td {
         #content tr td:first-child {
             text-align: right;
             /*color: #666;*/
-            color:magenta;
+            color:dodgerblue;
             vertical-align: top;
             position: relative;
         }
