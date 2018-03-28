@@ -70,12 +70,14 @@ body {
     vertical-align: bottom;
     text-align: left;
     font-size: 0.5rem;
-    z-index:9;
+    z-index: 9;
 }
+
 .tasklabel {
-    position:absolute;
-    top:0px;
-    z-index:10;
+    position: absolute;
+    top: 0px;
+    z-index: 10;
+    width: 100%;
 }
 
 @media (min-width: 20em) {
@@ -203,10 +205,9 @@ td {
         #content tr td:first-child {
             text-align: right;
             /*color: #666;*/
-            color:dodgerblue;
+            color: dodgerblue;
             vertical-align: top;
             position: relative;
-            width: 100%;
         }
 
 
