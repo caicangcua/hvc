@@ -78,6 +78,7 @@ body {
     top: 0px;
     z-index: 10;
     width: 100%;
+    overflow: hidden;
 }
 
 @media (min-width: 20em) {
@@ -175,7 +176,7 @@ td {
     width: 18%;
 }
 
-    /*td:first-child, th:first-child {
+/*td:first-child, th:first-child {
         width: 28%;
         padding-right: 10px;
         font-size: 0.7rem;
@@ -302,3 +303,144 @@ td {
     -ms-animation-name: none;
     animation-name: none;
 }
+
+
+.slide-in {
+    animation: slide-in 0.5s forwards;
+    -webkit-animation: slide-in 0.5s forwards;
+}
+
+.slide-out {
+    animation: slide-out 0.5s forwards;
+    -webkit-animation: slide-out 0.5s forwards;
+}
+
+.init-slidein {
+    transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+}
+
+@keyframes slide-in {
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+@-webkit-keyframes slide-in {
+    100% {
+        -webkit-transform: translateX(0%);
+    }
+}
+
+@keyframes slide-out {
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@-webkit-keyframes slide-out {
+    0% {
+        -webkit-transform: translateX(0%);
+    }
+
+    100% {
+        -webkit-transform: translateX(-100%);
+    }
+}
+
+.btndone-blue {
+    cursor: pointer;
+    color: #19667d;
+    background: #70c9e3;
+    background: -moz-linear-gradient(top, #70c9e3 0%, #39a0be 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#70c9e3), color-stop(100%,#39a0be));
+    background: -webkit-linear-gradient(top, #70c9e3 0%,#39a0be 100%);
+    background: -o-linear-gradient(top, #70c9e3 0%,#39a0be 100%);
+    background: -ms-linear-gradient(top, #70c9e3 0%,#39a0be 100%);
+    background: linear-gradient(top, #70c9e3 0%,#39a0be 100%);
+}
+
+.btndone-green {
+    cursor: pointer;
+    color: #3e5706;
+    background: #a5cd4e;
+    background: -moz-linear-gradient(top, #a5cd4e 0%, #6b8f1a 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a5cd4e), color-stop(100%,#6b8f1a));
+    background: -webkit-linear-gradient(top, #a5cd4e 0%,#6b8f1a 100%);
+    background: -o-linear-gradient(top, #a5cd4e 0%,#6b8f1a 100%);
+    background: -ms-linear-gradient(top, #a5cd4e 0%,#6b8f1a 100%);
+    background: linear-gradient(top, #a5cd4e 0%,#6b8f1a 100%);
+}
+
+.btndone-gray {
+    color: #515151;
+    background: #d3d3d3;
+    background: -moz-linear-gradient(top, #d3d3d3 0%, #8a8a8a 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d3d3d3), color-stop(100%,#8a8a8a));
+    background: -webkit-linear-gradient(top, #d3d3d3 0%,#8a8a8a 100%);
+    background: -o-linear-gradient(top, #d3d3d3 0%,#8a8a8a 100%);
+    background: -ms-linear-gradient(top, #d3d3d3 0%,#8a8a8a 100%);
+    background: linear-gradient(top, #d3d3d3 0%,#8a8a8a 100%);
+}
+
+.btndone {
+    display: inline-block;
+    position: absolute;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 1px 1px 1px rgba(255,255,255,.22);
+    font: normal 12px/25px Arial, sans-serif;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    -webkit-box-shadow: 1px 1px 1px rgba(0,0,0,.29), inset 1px 1px 1px rgba(255,255,255,.44);
+    -moz-box-shadow: 1px 1px 1px rgba(0,0,0,.29), inset 1px 1px 1px rgba(255,255,255,.44);
+    box-shadow: 1px 1px 1px rgba(0,0,0,.29), inset 1px 1px 1px rgba(255,255,255,.44);
+    -webkit-transition: all 0.15s ease;
+    -moz-transition: all 0.15s ease;
+    -o-transition: all 0.15s ease;
+    -ms-transition: all 0.15s ease;
+    transition: all 0.15s ease;
+    bottom: 10px;
+    right: 10px;
+    font-size: .2rem;
+}
+
+.colabnormal {
+    text-align: left;
+    vertical-align: top;
+    color: red;
+    font-style: italic;
+    font-size: .3rem !important;
+}
+
+.starburst {
+    display: block;
+    position: absolute;
+    top: -0.8rem;
+    right: 0px;
+    background: #fe0;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    rotation: -45deg;
+    text-align: center;
+    text-decoration: none;
+    color: #000;
+    font-size: .15rem;
+    font-family: Arial, sans-serif;
+}
+
+    .starburst span {
+        display: block;
+        width: 6em;
+        height: 6em;
+        background: #fe0;
+        -webkit-transform: rotate(22.5deg);
+        -moz-transform: rotate(22.5deg);
+        rotation: 22.5deg;
+    }
