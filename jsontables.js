@@ -83,22 +83,6 @@ function workScreen() {
         animate_Loading('removeClass', 'stop', '#tieude');
         that.stop_noty_timer();
         //
-        //$.ajax({
-        //    url: url_noty,
-        //    type: 'GET',
-        //    dataType: 'json',
-        //    cache: false,
-        //    timeout:3000, //3 second timeout
-        //    success: function (data, textStatus, xhr) {
-        //        that.start_noty_timer();
-        //        toastr["success"]("Get json success." + counter_noty_timer);
-        //    },
-        //    error: function (xhr, textStatus, errorThrown) {
-        //        that.start_noty_timer();
-        //        toastr["error"]("Get json error." + counter_noty_timer);
-        //    }
-        //});
-
         $.ajax({
             url: url_noty,
             type: "POST",
@@ -225,6 +209,7 @@ function () {
         });
     });
 };
+
 function validTime(txt) {
     return /^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$/i.test(txt);
 }
@@ -278,26 +263,57 @@ function doneBTN(el, kind) {
 
 function lineDoneUI(el) {
     //
-    var rmvlineRow = new $.Deferred(), headDonePanel = new $.Deferred()
-    ////
-    $.when(rmvlineRow.promise(), headDonePanel.promise()).done(function (returnPara1, returnPara2) {
-        $("#headDonePanel").attr('rowspan', 1);
-        $(window).trigger('resize', 0);
-    });
-    $("#donelineRow").fadeOut('slow', function () { //fade
-        $(this).remove(); //then remove from the DOM
-        rmvlineRow.resolve();
-    });
+    //var rmvlineRow = new $.Deferred(), headDonePanel = new $.Deferred()
+    //////
+    //$.when(rmvlineRow.promise(), headDonePanel.promise()).done(function (returnPara1, returnPara2) {
+    //    $("#headDonePanel").attr('rowspan', 1);
+    //    $(window).trigger('resize', 0);
+    //});
+    //$("#donelineRow").fadeOut('slow', function () { //fade
+    //    $(this).remove(); //then remove from the DOM
+    //    rmvlineRow.resolve();
+    //});
 
-    $("#headDonePanel .pricingdiv").addClass('slide-out').one('webkitAnimationEnd oanimationend oAnimationEnd msAnimationEnd animationend',
-                    function (event) {
-                        $(this).remove(); //then remove from the DOM
-                        headDonePanel.resolve();
-                    });
+    //$("#headDonePanel .pricingdiv").addClass('slide-out').one('webkitAnimationEnd oanimationend oAnimationEnd msAnimationEnd animationend',
+    //                function (event) {
+    //                    $(this).remove(); //then remove from the DOM
+    //                    headDonePanel.resolve();
+    //                });
+    $("#headDonePanel .pricingdiv").remove();
+    $("#donelineRow").remove()
+    $("#headDonePanel").attr('rowspan', 1).prepend($("<span id='tasktitle'>MÃ HÀNG</span>"));
+    $(window).trigger('resize', 0);
+}
+
+function showDoneERR() {
+    var tg = '', sl = '', inputThoiGian = $("#inputThoiGian"), inputSL = $("#inputSL");
+    if (inputThoiGian.mask() == '') {
+        tg = 'Nhập thời gian thực hiện';
+    } else if (inputThoiGian.mask().length == 8) {
+        var gio = inputThoiGian.val().split('-');
+        if (!validTime(gio[0])) {
+            tg = 'Từ giờ không hợp lệ';
+        } else if (!validTime(gio[1])) {
+            tg = 'Đến giờ không hợp lệ';
+        } else if (dateDiff(inputThoiGian.val()) < 0) {
+            tg = 'Từ giờ >(lớn) hơn Đến giờ';
+        };
+    };
+    if (inputSL.val() == '') {
+        sl = 'Nhập số lượng thực hiện';
+    } else if (!$.isNumeric(inputSL.val())) {
+        sl = 'Số lượng không hợp lệ';
+    };
+    var tg = '1.  ' + (tg == '' ? 'Thời gian thực hiện OK!' : tg + '-->ERR') + '\n';
+    var sl = '2.  ' + (sl == '' ? 'Số lượng thực hiện OK!' : sl + '-->ERR') + '\n';
+    alert(tg + sl + "\nVui lòng kiểm tra lại các nhập liệu chưa hợp lệ!");
 }
 
 function lineDone(el) {
-    if ($(el).hasClass('btndone-gray') || !confirm('Confirm before DONE!')) {
+    if ($(el).hasClass('btndone-gray')) {
+        showDoneERR();
+        return;
+    } else if (!confirm('Confirm before DONE!')) {
         return;
     };
 
@@ -328,12 +344,11 @@ function lineDone(el) {
 function actPanel(focusItem, waitItems) {
     var _taskInfo = focusItem['C0'].split('|');
     var tmp = "<div class='pricingdiv init-slidein'>" +
-                        (waitItems > 1 ? (
-                        "<a href='#' class='starburst'>" +
+                        "<a href='javascript:void(0)' " + (waitItems > 1 ? '' : ("style='display:none'")) + " class='starburst'>" +
                            "<span><span><span>" +
                               "<div id='waitItems' style='font-size:.4rem'>" + waitItems + "</div><div style='font-size:.2rem'>TASK(s)</div>Wait Done!" +
                            "</span></span></span>" +
-                        "</a>") : '') +
+                        "</a>" +
                     "<ul class='theplan'>" +
                         "<li class='nomachine'><h1>" + _taskInfo[0] + "</h1></li>" +
                         "<li class='activeInfo'><div>Lớp: " + _taskInfo[2] + "<br>Dài: " + _taskInfo[4] + "M<br>CT: " + _taskInfo[1] + "<br/>VẢI: " + _taskInfo[3] + "</div>" +
@@ -351,8 +366,8 @@ function actInfo(focusItem, waitItems) {
                             "<div class='thoigian'>" + _val[0] + "</div><div class='solieu'>" + _val[1] + "</div>" +
                     "</th>" +
                     "<th>" +
-                        "<div class='thoigian' style='overflow: hidden;position:relative'><input id='inputThoiGian' placeholder='00:00-00:00' type='text' onblur='doneBTN(this,0)'></div>" +
-                        "<div style='color:blue;overflow: hidden;position:relative' class='solieu'><input onblur='doneBTN(this,1)' placeholder='0' id='inputSL' type='text' maxlength='5'  autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false'></div>" +
+                        "<div class='thoigian' style='overflow: hidden;position:relative'><input id='inputThoiGian' placeholder='00:00-00:00' type='tel' onblur='doneBTN(this,0)'></div>" +
+                        "<div style='color:blue;overflow: hidden;position:relative' class='solieu'><input onblur='doneBTN(this,1)' placeholder='0' id='inputSL' type='tel' maxlength='5'></div>" +
                     "</th>" +
                     "<th>" +
                           "<div class='thoigian' style='text-align:right!important'>-</div><div class='solieu'>0</div>" +
@@ -373,6 +388,7 @@ function CreateTableFromJSON(tbHeader) {
                 "</tr>" +
             "<tbody id='tieude'><tr class='head2'>" +
                 "<td id='headDonePanel' class='colTaskID' style='position:relative;padding:5px'>" +
+                    "<span id='tasktitle'>MÃ HÀNG</span>" +
                     "<div class='loading'><div class='round-trip stop'></div><div class='open-jaw stop'></div><div class='one-way stop'></div></div>" +
                 "</td>" +
                 "<td>" +
@@ -420,6 +436,7 @@ function ShowFocusItem(focusItem, waitItems) {
             rmvlineRow.resolve(this);
         });
         $("#headDonePanel").attr('rowspan', 2);
+        $("#tasktitle").remove();
         $(actPanel(focusItem, waitItems)).prependTo($('#headDonePanel')).addClass('slide-in').one('webkitAnimationEnd oanimationend oAnimationEnd msAnimationEnd animationend',
                         function (event) {
                             headDonePanel.resolve();
@@ -464,9 +481,11 @@ function JSONTable(mapHeader, tableObject) {
                 var _c0 = focusItem['C0'].split('|');
                 if (_c0[0] != $('.theplan h1').text()) {
                     lineDoneUI();//remove wait next
+                    ShowFocusItem(focusItem, waitItems);
                 } else {
                     // udpate waiting done
                     $('#waitItems').text(waitItems);
+                    $('.starburst').css('display', ((waitItems > 1 ? '' : 'none')));
                 }
             } else {
                 lineDoneUI();//remove wait next
@@ -474,7 +493,7 @@ function JSONTable(mapHeader, tableObject) {
         } else {
             if (focusItem) {
                 ShowFocusItem(focusItem, waitItems);
-            }
+            };
         };
 
 
