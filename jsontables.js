@@ -60,6 +60,7 @@ function autoUpdate() {
     that.version_timer_callback();
 }
 
+
 function workScreen() {
     //
     var that = this, noty_timer = null, noty_duration = 10, limit_noty_timer = 0, counter_noty_timer = 0;
@@ -539,7 +540,10 @@ function JSONTable(mapHeader, tableObject) {
                 });
                 existR.find('.colabnormal').text(jsonSourceData[jr]['C4']);
                 var _taskInfo = jsonSourceData[jr]['C0'].split('|');
-                existR.find('.half-circle-ribbon').html('Lớp: ' + _taskInfo[2] + '<br/>Dài: ' + _taskInfo[4] + 'M<br/>CT: ' + _taskInfo[1] + '<br/>VẢI: ' + _taskInfo[3]);
+                existR.find('.half-circle-ribbon').html('Lớp: ' + _taskInfo[2] + '<br/>Dài: ' + _taskInfo[4] + 'M<br/>CT: ' + _taskInfo[1] + '<br/>VẢI: ' + _taskInfo[3] +
+                                                                                          '<div style="top:auto;right:0px;bottom:0px" class="starburst">' +
+                              (jsonSourceData[jr].IsDone == '1' ? ('<div class="donestatus">DONE</div>') : '')
+                              );
             } else {
                 isChangeSize = true;
                 var tableDataRow = $("<tr id='" + taskID + "'></tr>");
@@ -547,7 +551,16 @@ function JSONTable(mapHeader, tableObject) {
                     if (ki == 0) {
                         var _taskInfo = jsonSourceData[jr]['C' + tableHeaderArray[ki]].split('|');
                         tableDataRow.append('<td class="colTaskID"><div class="tasklabel">' + _taskInfo[0] +
-                            '</div><div class="half-circle-ribbon">Lớp: ' + _taskInfo[2] + '<br/>Dài: ' + _taskInfo[4] + 'M<br/>CT: ' + _taskInfo[1] + '<br/>VẢI: ' + _taskInfo[3] + '</div></td>');
+                            '</div><div class="half-circle-ribbon">Lớp: ' + _taskInfo[2] + '<br/>Dài: ' + _taskInfo[4] + 'M<br/>CT: ' + _taskInfo[1] + '<br/>VẢI: ' + _taskInfo[3] +
+
+                                    (jsonSourceData[jr].IsDone == '1' ? ('<div class="donestatus">DONE</div>') : '') +
+
+                            '</div>' +
+
+
+
+                            '</td>');
+
                     } else {
                         var _val = jsonSourceData[jr]['C' + tableHeaderArray[ki]].split('|');
                         var color = ''; if (ki == 2) { color = "style='color:blue'" };

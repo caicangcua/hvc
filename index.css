@@ -443,3 +443,11 @@ td {
         -moz-transform: rotate(22.5deg);
         rotation: 22.5deg;
     }
+
+.donestatus {
+    position: absolute;
+    background-color: red;
+    right: -0.5rem;
+    bottom: 10px;
+    color: yellow;
+}
