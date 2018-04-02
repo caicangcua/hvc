@@ -442,7 +442,7 @@ function donePercent(total, done) {
          "<text x='18' y='21.35' class='percentage'>" + percent + "%</text></svg>" +
                              "<div class='donesumary'>" +
     "<div><i>T</i>:" + total + "</div>" +
-    "<div><i>D/i>:" + done + "</div>" +
+    "<div><i>D</i>:" + done + "</div>" +
 "</div>"
     };
     $('.single-chart').html(data);
