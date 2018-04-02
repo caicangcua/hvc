@@ -60,6 +60,7 @@ function autoUpdate() {
     that.version_timer_callback();
 }
 
+var IsDonePost = false;
 function workScreen() {
     //
     var that = this, noty_timer = null, noty_duration = 10, limit_noty_timer = 0, counter_noty_timer = 0;
@@ -82,69 +83,81 @@ function workScreen() {
         animate_Loading('removeClass', 'stop', '#tieude');
         that.stop_noty_timer();
         //
-        $.ajax({
-            url: url_noty,
-            type: "POST",
-            data: {
-                "kind": 'androidbox',
-                "hostid": hostID,
-                "hostip": hostIP,
-                "hostmodel": hostNAME
-            },
-            dataType: 'json',
-            cache: false,
-            timeout: 5000, //5 second timeout
-            success: function (data, textStatus, xhr) {
-                that.start_noty_timer();
-                if (data == null) {
-                    toastr["warning"]("Data return null. (" + counter_noty_timer + ')');
-                } else {
-                    var Huybo = "success";
-                    if (data['HuyBo'] == '1') {
-                        Huybo = "warning";
-                        toastr["warning"]("Device 'Huy Bo'. (" + counter_noty_timer + ')');
-                    };
-                    if (data['SendTest'] == '1') {
-                        toastr[Huybo](data['MsgTest'] + ' (' + counter_noty_timer + ')');
-                    };
-                    var headertitle = "<div class='nomachine'><h1>NO CUTTING MACHINE</h1></div>";
-                    var isChangeSide = false;
-                    var nodataEL = $el.find('#nodataMsg');
-                    //
-                    if (data['FF_MayCat'] != null && data['FF_MayCat'] != '') {
-                        headertitle = data['FF_MayCat'] + ' - Ngày: ' + data['EachDate'];
+        if (!IsDonePost) {
+            $.ajax({
+                url: url_noty,
+                type: "POST",
+                data: {
+                    "kind": 'androidbox',
+                    "hostid": hostID,
+                    "hostip": hostIP,
+                    "hostmodel": hostNAME
+                },
+                dataType: 'json',
+                cache: false,
+                timeout: 5000, //5 second timeout
+                success: function (data, textStatus, xhr) {
+                    that.start_noty_timer();
+                    if (data == null) {
+                        toastr["warning"]("Data return null. (" + counter_noty_timer + ')');
+                    } else {
+                        var Huybo = "success";
+                        if (data['HuyBo'] == '1') {
+                            Huybo = "warning";
+                            toastr["warning"]("Device 'Huy Bo'. (" + counter_noty_timer + ')');
+                        };
+                        if (data['SendTest'] == '1') {
+                            toastr[Huybo](data['MsgTest'] + ' (' + counter_noty_timer + ')');
+                        };
+                        var headertitle = "<div class='nomachine'><h1>NO CUTTING MACHINE</h1></div>";
+                        var isChangeSide = false;
+                        var nodataEL = $el.find('#nodataMsg');
                         //
-                        if (data['Lines'] != null) {
-                            if (nodataEL.length > 0) nodataEL.remove();
-                            isChangeSide = jsonTable.fromJSON(data['Lines']);
+                        if (data['FF_MayCat'] != null && data['FF_MayCat'] != '') {
+                            headertitle = data['FF_MayCat'] + ' - Ngày: ' + data['EachDate'];
+                            //
+                            if (data['Lines'] != null) {
+                                if (nodataEL.length > 0) nodataEL.remove();
+                                isChangeSide = jsonTable.fromJSON(data['Lines']);
+                            } else {
+                                isChangeSide = jsonTable.clearTable();
+                                //
+                                if ($('#donelineRow').length > 0) {
+                                    lineDoneUI();//remove wait next
+                                };
+                                //
+                                if (nodataEL.length == 0) {
+                                    $el.append('<div class="nomachine" id="nodataMsg"><h1>NO DATA</h1></div>');
+                                    donePercent();
+                                };
+                            };
                         } else {
+                            if (nodataEL.length > 0) nodataEL.remove();
                             isChangeSide = jsonTable.clearTable();
                             //
                             if ($('#donelineRow').length > 0) {
                                 lineDoneUI();//remove wait next
                             };
-                            //
-                            if (nodataEL.length == 0) $el.append('<div class="nomachine" id="nodataMsg"><h1>NO DATA</h1></div>');
+                            donePercent();
                         };
-                    } else {
-                        if (nodataEL.length > 0) nodataEL.remove();
-                        isChangeSide = jsonTable.clearTable();
+                        //
+                        var dogHEADER1 = $('#head1');
+                        if (dogHEADER1.text() != $("<div>" + headertitle + "</div>").text() || isChangeSide) {
+                            dogHEADER1.html(headertitle);
+                            $(window).trigger('resize', 0);
+                        };
                     };
-                    //
-                    var dogHEADER1 = $('#head1');
-                    if (dogHEADER1.text() != $("<div>" + headertitle + "</div>").text() || isChangeSide) {
-                        dogHEADER1.html(headertitle);
-                        $(window).trigger('resize', 0);
-                    };
-                };
-                setTimeout(function () { animate_Loading('addClass', 'stop', '#tieude'); }, 2000);
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                that.start_noty_timer();
-                toastr["error"]("Server API ERR. " + url_noty + " (" + counter_noty_timer + ')');
-                setTimeout(function () { animate_Loading('addClass', 'stop', '#tieude'); }, 2000);
-            }
-        });
+                    setTimeout(function () { animate_Loading('addClass', 'stop', '#tieude'); }, 2000);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    that.start_noty_timer();
+                    toastr["error"]("Server API ERR. " + url_noty + " (" + counter_noty_timer + ')');
+                    setTimeout(function () { animate_Loading('addClass', 'stop', '#tieude'); }, 2000);
+                }
+            });
+        } else {
+            that.start_noty_timer();
+        };
     };
     var jsonTable = new JSONTable($("#tieude"), $("#content"));
     that.get_noty();// get json from webAPI first time when loaded!
@@ -262,26 +275,26 @@ function doneBTN(el, kind) {
 
 function lineDoneUI(el) {
     //
-    //var rmvlineRow = new $.Deferred(), headDonePanel = new $.Deferred()
-    //////
-    //$.when(rmvlineRow.promise(), headDonePanel.promise()).done(function (returnPara1, returnPara2) {
-    //    $("#headDonePanel").attr('rowspan', 1);
-    //    $(window).trigger('resize', 0);
-    //});
-    //$("#donelineRow").fadeOut('slow', function () { //fade
-    //    $(this).remove(); //then remove from the DOM
-    //    rmvlineRow.resolve();
-    //});
+    var rmvlineRow = new $.Deferred(), headDonePanel = new $.Deferred()
+    ////
+    $.when(rmvlineRow.promise(), headDonePanel.promise()).done(function (returnPara1, returnPara2) {
+        $("#headDonePanel").attr('rowspan', 1).prepend($("<span id='tasktitle'>MÃ HÀNG</span>"));
+        $(window).trigger('resize', 0);
+    });
+    $("#donelineRow").fadeOut('slow', function () { //fade
+        $(this).remove(); //then remove from the DOM
+        rmvlineRow.resolve();
+    });
 
-    //$("#headDonePanel .pricingdiv").addClass('slide-out').one('webkitAnimationEnd oanimationend oAnimationEnd msAnimationEnd animationend',
-    //                function (event) {
-    //                    $(this).remove(); //then remove from the DOM
-    //                    headDonePanel.resolve();
-    //                });
-    $("#headDonePanel .pricingdiv").remove();
-    $("#donelineRow").remove()
-    $("#headDonePanel").attr('rowspan', 1).prepend($("<span id='tasktitle'>MÃ HÀNG</span>"));
-    $(window).trigger('resize', 0);
+    $("#headDonePanel .pricingdiv").addClass('slide-out').one('webkitAnimationEnd oanimationend oAnimationEnd msAnimationEnd animationend',
+                    function (event) {
+                        $(this).remove(); //then remove from the DOM
+                        headDonePanel.resolve();
+                    });
+    //$("#headDonePanel .pricingdiv").remove();
+    //$("#donelineRow").remove()
+    //$("#headDonePanel").attr('rowspan', 1).prepend($("<span id='tasktitle'>MÃ HÀNG</span>"));
+    //$(window).trigger('resize', 0);
 }
 
 function showDoneERR() {
@@ -315,9 +328,8 @@ function lineDone(el) {
     } else if (!confirm('Confirm before DONE!')) {
         return;
     };
-
-    lineDoneUI(el);
-
+    IsDonePost = true;//prevent
+    //
     $.ajax({
         url: url_noty,
         type: "POST",
@@ -326,28 +338,31 @@ function lineDone(el) {
             "hostid": hostID,
             "hostip": hostIP,
             "hostmodel": hostNAME,
-            "donedata": $(el).data['done-data'] + '|' + $('#doneTxt').val(),
+            "donedata": $(el).data['done-data'] + '|' + encodeURIComponent($('#doneTxt').val()),
             "taskrow": $(el).attr('data-taskrow')
         },
         dataType: 'json',
         cache: false,
         timeout: 5000, //5 second timeout
         success: function (data, textStatus, xhr) {
-
+            IsDonePost = false;//release
         },
         error: function (xhr, textStatus, errorThrown) {
+            IsDonePost = false;//release
         }
     });
+    //
+    lineDoneUI(el);
 }
 
 function actPanel(focusItem, waitItems) {
     var _taskInfo = focusItem['C0'].split('|');
     var tmp = "<div class='pricingdiv init-slidein'>" +
-                        "<a href='javascript:void(0)' " + (waitItems > 1 ? '' : ("style='display:none'")) + " class='starburst'>" +
+                        "<div " + (waitItems > 1 ? '' : ("style='display:none'")) + " class='starburst'>" +
                            "<span><span><span>" +
                               "<div id='waitItems' style='font-size:.4rem'>" + waitItems + "</div><div style='font-size:.2rem'>TASK(s)</div>Wait Done!" +
                            "</span></span></span>" +
-                        "</a>" +
+                        "</div>" +
                     "<ul class='theplan'>" +
                         "<li class='nomachine'><h1>" + _taskInfo[0] + "</h1></li>" +
                         "<li class='activeInfo'><div>Lớp: " + _taskInfo[2] + "<br>Dài: " + _taskInfo[4] + "M<br>CT: " + _taskInfo[1] + "<br/>VẢI: " + _taskInfo[3] + "</div>" +
@@ -381,7 +396,7 @@ function actInfo(focusItem, waitItems) {
 function CreateTableFromJSON(tbHeader) {
     var newsec = $("<table id='tbhead'>" +
             "<tr>" +
-                "<td  id='head1' class='head1 colTaskID' colspan='5' style='text-align:center'>" +
+                "<td  id='head1' class='head1 colTaskID' colspan='5' style='text-align:left;padding-left:27%'>" +
                     "<div class='nomachine'><h1>MACHINE VERIFING ...</h1></div>" +
                 "</td>" +
                 "</tr>" +
@@ -412,6 +427,25 @@ function CreateTableFromJSON(tbHeader) {
         // test jquery deffer!
         tbHeader.resolve($('#head1').length);
     });
+}
+
+function donePercent(total, done) {
+    var data = '';
+    if (total && total > 0) {
+        var percent = Math.ceil(100 * done / total);
+        data = "<svg viewBox='0 0 36 36' class='circular-chart orange'><path class='circle-bg' d='M18 2.0845" +
+"a 15.9155 15.9155 0 0 1 0 31.831" +
+"a 15.9155 15.9155 0 0 1 0 -31.831'></path>" +
+         "<path class='circle' stroke-dasharray='" + percent + ", 100' d='M18 2.0845" +
+"a 15.9155 15.9155 0 0 1 0 31.831" +
+"a 15.9155 15.9155 0 0 1 0 -31.831'></path>" +
+         "<text x='18' y='21.35' class='percentage'>" + percent + "%</text></svg>" +
+                             "<div class='donesumary'>" +
+    "<div><i>Total</i>:" + total + "</div>" +
+    "<div><i>Done</i>:" + done + "</div>" +
+"</div>"
+    };
+    $('.single-chart').html(data);
 }
 
 function ShowFocusItem(focusItem, waitItems) {
@@ -458,12 +492,14 @@ function JSONTable(mapHeader, tableObject) {
     };
 
     this.fromJSON = function (jsonSourceData) {
-
-        var focusItem = null, waitItems = 0;
+        if (IsDonePost) { return; };
+        var focusItem = null, waitItems = 0, totalTask = jsonSourceData.length, isdone = 0;
         for (var jr = 0; jr < jsonSourceData.length; jr++) {
             if (jsonSourceData[jr]['IsFocused'] == '1' && jsonSourceData[jr]['IsDone'] == '0') {
                 if (!focusItem) { focusItem = jsonSourceData[jr]; }
                 waitItems += 1;
+            } else if (jsonSourceData[jr]['IsDone'] == '1') {
+                isdone += 1;
             }
         };
 
@@ -483,8 +519,17 @@ function JSONTable(mapHeader, tableObject) {
                     ShowFocusItem(focusItem, waitItems);
                 } else {
                     // udpate waiting done
-                    var panel = $(actPanel(focusItem, waitItems)).html();
-                    $("#headDonePanel .pricingdiv").html(panel);
+                    var _taskInfo = focusItem['C0'].split('|');
+                    var panel = $("#headDonePanel .pricingdiv");
+                    panel.find('.starburst').css('display', (waitItems > 1 ? '' : 'none'));
+                    panel.find('#waitItems').text(waitItems);
+                    panel.find('li').each(function (i, el) {
+                        if (i == 0) {
+                            $(el).html("<h1>" + _taskInfo[0] + "</h1>");
+                        } else {
+                            $(el).children('div:first').html("<div>Lớp: " + _taskInfo[2] + "<br>Dài: " + _taskInfo[4] + "M<br>CT: " + _taskInfo[1] + "<br/>VẢI: " + _taskInfo[3] + "</div>");
+                        }
+                    });
                     var _val = focusItem['C1'].split('|');
                     $("#donelineRow").find("th:first").find('.thoigian').each(function (i, fuck) {
                         if ($(fuck).text() != _val[0]) {
@@ -508,7 +553,7 @@ function JSONTable(mapHeader, tableObject) {
 
 
         var newROWs = $.makeArray($(jsonSourceData).map(function (index) {
-            return this['C0'].split('|')[0];
+            return this['C0'].split('|')[5];
         }));
 
         var existROWs = {};
@@ -529,9 +574,9 @@ function JSONTable(mapHeader, tableObject) {
         };
         //
         for (var jr = 0; jr < jsonSourceData.length; jr++) {
-            var taskID = jsonSourceData[jr]['C' + tableHeaderArray[0]].split('|')[0];
-            if (existROWs.hasOwnProperty(taskID)) {
-                var existR = $(existROWs[taskID]);
+            var taskField = jsonSourceData[jr]['C' + tableHeaderArray[0]].split('|');
+            if (existROWs.hasOwnProperty(taskField[5])) {
+                var existR = $(existROWs[taskField[5]]);
                 existR.find('.thoigian').each(function (i, fuck) {
                     var _val = jsonSourceData[jr]['C' + (i + 1)].split('|');
                     $(fuck).text(_val[0]);
@@ -544,7 +589,7 @@ function JSONTable(mapHeader, tableObject) {
                               );
             } else {
                 isChangeSize = true;
-                var tableDataRow = $("<tr id='" + taskID + "'></tr>");
+                var tableDataRow = $("<tr id='" + taskField[5] + "'></tr>");
                 for (var ki = 0; ki < tableHeaderArray.length; ki++) {
                     if (ki == 0) {
                         var _taskInfo = jsonSourceData[jr]['C' + tableHeaderArray[ki]].split('|');
@@ -576,6 +621,7 @@ function JSONTable(mapHeader, tableObject) {
                 that.table.append(tableDataRow);
             };
         }
+        donePercent(totalTask, isdone);
         return isChangeSize;
     }
 }
