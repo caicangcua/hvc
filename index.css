@@ -413,9 +413,10 @@ td {
 .colabnormal {
     text-align: left;
     vertical-align: top;
-    color: red;
+    color: red!important;
     font-style: italic;
     font-size: .5rem !important;
+    padding:10px;
 }
 
 .starburst {
