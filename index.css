@@ -234,22 +234,22 @@ td {
     }
 
 #tieude td:nth-child(2) {
-    background: #faab00 !important;
+    background: #faab00;
     color: white;
 }
 
 #tieude td:nth-child(3) {
-    background: #9bba0d !important;
+    background: #9bba0d;
     color: white;
 }
 
 #tieude td:nth-child(4) {
-    background: #539a2d !important;
+    background: #539a2d;
     color: white;
 }
 
 #tieude td:nth-child(5) {
-    background: #268061 !important;
+    background: #268061;
     color: white;
 }
 
