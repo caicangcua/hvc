@@ -397,7 +397,7 @@ function wait30Item(focusItem) {
     var _val = focusItem['C1'].split('|');
     var _taskInfo = focusItem['C0'].split('|');
 
-    var tmp = "<tr id='fix30snd'><td style='position:relative;'>" +
+    var tmp = "<td style='position:relative;'>" +
     "<div class='tasklabel' style='font-size:0.6rem'>" + _taskInfo[0] + "</div>" +
     "<div class='half-circle-ribbon'>Lớp: " + _taskInfo[2] + "<br>Dài: " + _taskInfo[4] + "M<br>CT: " + _taskInfo[1] + "<br/>VẢI: " + _taskInfo[3] + "</div></td>" +
         "<td><div class='thoigian'>" + _val[0] + "</div><div class='solieu' style='color:black'>" + _val[1] + "</div></td>";
@@ -410,7 +410,7 @@ function wait30Item(focusItem) {
         "<div class='thoigian' style='text-align:right!important'>" + _val[0] + "</div><div class='solieu' style='color:black'>" + _val[1] + "</div></td>";
 
     _val = focusItem['C4'].split('|');
-    tmp += "<td class='colabnormal'><div>" + _val[0] + "</div></td></tr>";
+    tmp += "<td class='colabnormal'><div>" + _val[0] + "</div></td>";
     return tmp;
 }
 
@@ -550,13 +550,14 @@ function donelineRowFUNC(focusItem, waitItems) {
 }
 function fix30sndFUNC(wait30) {
     if ($('#fix30snd').length > 0) {
-        $('#fix30snd').remove();
         if (wait30) {
-            $(wait30Item(wait30)).appendTo($('#tieude'));
+            $('#fix30snd').html(wait30Item(wait30));
+        } else {
+            $('#fix30snd').remove();
         }
     } else {
         if (wait30) {
-            $(wait30Item(wait30)).appendTo($('#tieude'));
+            $("<tr id='fix30snd'>" + wait30Item(wait30) + "</tr>").appendTo($('#tieude'));
         };
     };
 }
