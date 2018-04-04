@@ -436,7 +436,7 @@ function CreateTableFromJSON(tbHeader) {
                     "S.BIỆT" +
                 "</td>" +
                 "<td>" +
-                    "BẤT Thg" +
+                    "G.CHÚ" +
                 "</td>" +
             "</tr>" +
 
