@@ -413,10 +413,10 @@ td {
 .colabnormal {
     text-align: left;
     vertical-align: top;
-    color: red!important;
+    color: red !important;
     font-style: italic;
     font-size: .5rem !important;
-    padding:10px;
+    padding: 10px;
 }
 
 .starburst {
@@ -452,3 +452,39 @@ td {
     bottom: 10px;
     color: yellow;
 }
+
+#fix30snd {
+    position: relative;
+    text-align: right;
+}
+
+    #fix30snd div {
+        animation: blinker 5s step-start infinite;
+    }
+
+@keyframes blinker {
+    50% {
+        opacity: 0.3;
+    }
+}
+
+
+#fix30snd {
+    border-top: 5px dashed lightgray;
+}
+
+    #fix30snd td:nth-child(odd) {
+        background-color: #e3e3e3 !important;
+    }
+
+    #fix30snd td:nth-child(odd) {
+        background-color: #f6f6f6 !important;
+    }
+
+    #fix30snd td:nth-child(even) {
+        background-color: #ebebeb !important;
+    }
+
+    #fix30snd td:nth-child(even) {
+        background-color: #ffffff !important;
+    }
