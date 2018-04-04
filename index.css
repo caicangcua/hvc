@@ -465,6 +465,7 @@ td {
 @keyframes blinker {
     50% {
         opacity: 0.3;
+        border-color:red!important;
     }
 }
 
