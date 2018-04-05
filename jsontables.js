@@ -232,8 +232,8 @@ function dateDiff(txt) {
 }
 function countLechTime(inputTime) {
     var THs = $('#donelineRow th');
-    var T1 = dateDiff($(THs[0]).find('.thoigian').text());
-    var T2 = dateDiff(inputTime);
+    var T1 = dateDiff($(THs[0]).find('.thoigian').text()); T1 = parseInt(T1) || 0;
+    var T2 = dateDiff(inputTime); T2 = parseInt(T2) || 0;
     $(THs[2]).find('.thoigian').text(T1 - T2);
 }
 function countLechSL(SL) {
@@ -249,16 +249,19 @@ function doneBTN(el, kind) {
     var isTG = '', dogTG = '', isSL = '';
     if (kind == 0) {
         if ($(el).mask() != '' && $(el).mask().length == 8) {
-            if (dateDiff($(el).val()) > -1) {
-                isTG = $(el).val(); countLechTime(isTG);
-            } else {
-                $($('#donelineRow th')[2]).find('.thoigian').text('-');
-            };
+            //if (dateDiff($(el).val()) > -1) {
+            isTG = $(el).val(); countLechTime(isTG);
+            //} else {
+            //    $($('#donelineRow th')[2]).find('.thoigian').text('-');
+            //};
         };
         isSL = $(el).parent().parent().find("#inputSL").val();
     } else {
         var tg = $(el).parent().parent().find("#inputThoiGian");
-        if (tg.mask() != '' && tg.mask().length == 8 && dateDiff(tg.val()) > -1) { isTG = tg.val() };
+        if (tg.mask() != '' && tg.mask().length == 8 //&& dateDiff(tg.val()) > -1
+            ) {
+            isTG = tg.val()
+        };
         isSL = $(el).val();
         countLechSL(isSL);
     };
@@ -326,8 +329,14 @@ function lineDone(el) {
     if ($(el).hasClass('btndone-gray')) {
         showDoneERR();
         return;
-    } else if (!confirm('Confirm before DONE!')) {
-        return;
+    } else {
+        var msg = '';
+        if (dateDiff($("#inputThoiGian").val()) < 0) {
+            msg = 'Từ giờ >(lớn) hơn Đến giờ! -->Thời gian qua ngày mới.\n\n';
+        };
+        if (!confirm(msg + 'Confirm before DONE!')) {
+            return;
+        }
     };
     IsDonePost = true;//prevent
     //
