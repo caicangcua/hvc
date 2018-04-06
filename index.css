@@ -411,7 +411,7 @@ td {
 }
 
 .colabnormal {
-    text-align: left;
+    text-align: left!important;
     vertical-align: top;
     color: red !important;
     font-style: italic;
