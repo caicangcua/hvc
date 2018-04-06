@@ -622,7 +622,7 @@ function JSONTable(mapHeader, tableObject) {
                     wait30 = jsonSourceData[jr];
                 };
                 waitItems += 1;
-            } else if (!wait30 && jsonSourceData[jr]['Is30'] == '1') {
+            } else if (!wait30 && jsonSourceData[jr]['Is30'] == '1' && jsonSourceData[jr]['IsDone'] == '0') {
                 wait30 = jsonSourceData[jr];
                 if (jsonSourceData[jr]['IsDone'] == '1') { waitItems += 1; }
             } else if (jsonSourceData[jr]['IsDone'] == '1') {
