@@ -78,6 +78,23 @@ function workScreen() {
         //
     };
 
+    var clock = $('<div id="digitalclock"></div>').prependTo($('.jquery-page-container'));
+    var pad = function (x) {
+        return x < 10 ? '0' + x : x;
+    };
+    var ticktock = function () {
+        var d = new Date();
+        var h = pad(d.getHours());
+        var m = pad(d.getMinutes());
+        var s = pad(d.getSeconds());
+        var current_time = [h, m, s].join(':');
+        clock.text(current_time);
+    };
+    ticktock();
+    // Calling ticktock() every 1 second
+    setInterval(ticktock, 1000);
+    //
+    //
     this.get_noty = function (causeby) {
         //causeby : 'timer','history':yesterday, 7 days ... 'include':Include dismiss, Only dismiss ...
         animate_Loading('removeClass', 'stop', '#tieude');
@@ -326,6 +343,7 @@ function showDoneERR() {
 }
 
 function lineDone(el) {
+    var retVal = null;
     if ($(el).hasClass('btndone-gray')) {
         showDoneERR();
         return;
@@ -334,9 +352,13 @@ function lineDone(el) {
         if (dateDiff($("#inputThoiGian").val()) < 0) {
             msg = 'Từ giờ >(lớn) hơn Đến giờ! -->Thời gian qua ngày mới.\n\n';
         };
-        if (!confirm(msg + 'Confirm before DONE!')) {
+        retVal = prompt(msg + "Bất Thường? ", "");
+        if (retVal == null) {
             return;
-        }
+        };
+        //if (!confirm(msg + 'Confirm before DONE!')) {
+        //    return;
+        //}
     };
     IsDonePost = true;//prevent
     //
@@ -348,7 +370,7 @@ function lineDone(el) {
             "hostid": hostID,
             "hostip": hostIP,
             "hostmodel": hostNAME,
-            "donedata": $(el).data['done-data'] + '|' + encodeURIComponent($('#doneTxt').val()),
+            "donedata": $(el).data['done-data'] + '|' + encodeURIComponent(retVal),//$('#doneTxt').val()),
             "taskrow": $(el).attr('data-taskrow')
         },
         dataType: 'json',
@@ -395,10 +417,14 @@ function actInfo(focusItem, waitItems) {
                     "</th>" +
                     "<th>" +
                           "<div class='thoigian' style='text-align:right!important'>-</div><div class='solieu'>0</div>" +
+                    "</th>";
+
+    _val = focusItem['C4'].split('|');
+    tmp += "<th class='colabnormal'><div>" + _val[0] + "</div>" +
                     "</th>" +
-                    "<th style='position:relative;overflow:hidden;font-size:0.2rem'>" +
-                        "<textarea id='doneTxt' iwrap='soft' style='overflow:hidden; resize:none;font-size:.55rem;color:red;text-align:left' maxlength='50'></textarea>" +
-                    "</th>" +
+                    //"<th style='position:relative;overflow:hidden;font-size:0.2rem'>" +
+                    //    "<textarea id='doneTxt' iwrap='soft' style='overflow:hidden; resize:none;font-size:.55rem;color:red;text-align:left' maxlength='50'></textarea>" +
+                    //"</th>" +
                 "</tr>";
     return tmp;
 };
