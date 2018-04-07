@@ -411,13 +411,16 @@ function actInfo(focusItem, waitItems) {
                     "<th>" +
                             "<div class='thoigian'>" + _val[0] + "</div><div class='solieu'>" + _val[1] + "</div>" +
                     "</th>" +
-                    "<th>" +
-                        "<div class='thoigian' style='overflow: hidden;position:relative'><input id='inputThoiGian' placeholder='00:00-00:00' type='tel' onblur='doneBTN(this,0)'></div>" +
-                        "<div style='color:blue;overflow: hidden;position:relative' class='solieu'><input onblur='doneBTN(this,1)' placeholder='0' id='inputSL' type='tel' maxlength='5'></div>" +
-                    "</th>" +
-                    "<th>" +
-                          "<div class='thoigian' style='text-align:right!important'>-</div><div class='solieu'>0</div>" +
-                    "</th>";
+                    "<th>";
+
+    var _val = focusItem['C2'].split('|');
+
+    tmp += "<div class='thoigian' style='overflow: hidden;position:relative'><input value=" + ((_val[0] != '') ? _val[0] : null) + " id='inputThoiGian' placeholder='00:00-00:00' type='tel' onblur='doneBTN(this,0)'></div>" +
+                         "<div style='color:blue;overflow: hidden;position:relative' class='solieu'><input onblur='doneBTN(this,1)' placeholder='0'  value=" + ((_val[0] != '') ? _val[1] : null) + " id='inputSL' type='tel' maxlength='5'></div>" +
+                     "</th>" +
+                     "<th>" +
+                           "<div class='thoigian' style='text-align:right!important'>-</div><div class='solieu'>0</div>" +
+                     "</th>";
 
     _val = focusItem['C4'].split('|');
     tmp += "<th class='colabnormal'><div>" + _val[0] + "</div>" +
@@ -650,14 +653,17 @@ function JSONTable(mapHeader, tableObject) {
             that.table.empty();// clear all table rows
             isChangeSize = true;
         } else {
+            var rowindex = 0;
             $(that.table).find('tr').each(function (index, el) {
-                if (newROWs.indexOf(el.id) == -1) {
+                if (rowindex < newROWs.length) {
+                    //update value of row
+                    $(el).attr('id', newROWs[rowindex]);
+                    existROWs[el.id] = el;
+                } else {
                     $(el).remove(); //remove this row
                     isChangeSize = true;
-                } else {
-                    //update value of row
-                    existROWs[el.id] = el;
                 };
+                rowindex += 1;
             });
         };
         //
