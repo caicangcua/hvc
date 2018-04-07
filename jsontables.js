@@ -678,6 +678,7 @@ function JSONTable(mapHeader, tableObject) {
                 });
                 existR.find('.colabnormal').text(jsonSourceData[jr]['C4']);
                 var _taskInfo = jsonSourceData[jr]['C0'].split('|');
+                existR.find('.tasklabel').html(_taskInfo[0]);
                 existR.find('.half-circle-ribbon').html('Lớp: ' + _taskInfo[2] + '<br/>Dài: ' + _taskInfo[4] + 'M<br/>CT: ' + _taskInfo[1] + '<br/>VẢI: ' + _taskInfo[3] +
                               (jsonSourceData[jr].IsDone == '1' ? ('<div class="donestatus">DONE</div>') : '')
                               );
