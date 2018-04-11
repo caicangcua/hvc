@@ -422,7 +422,7 @@ function actInfo(focusItem, waitItems) {
     //
     var lastNgay = '';
     if (_val[2] && _val[2] != '') {
-        lastNgay = "<span style='position:absolute;font-size:0.2rem;color:red'>" + _val[2] + "</span>";
+        lastNgay = "<div style='position:absolute;font-size:0.2rem;color:red'>" + _val[2] + "</div>";
     };
 
     var tmp = "<tr id='donelineRow' class='head3' style='display:none'>" +
@@ -453,7 +453,7 @@ function wait30Item(focusItem) {
     var _val = focusItem['C1'].split('|');
     var otherD = '';
     if (_val[2] && _val[2] != '') {
-        otherD = "<span style='position:absolute;font-size:0.2rem;color:red'>" + _val[2] + "</span>";
+        otherD = "<div style='position:absolute;font-size:0.2rem;color:red'>" + _val[2] + "</div>";
     };
     var _taskInfo = focusItem['C0'].split('|');
     var tmp = "<td style='position:relative;'>" +
@@ -741,7 +741,7 @@ function JSONTable(mapHeader, tableObject) {
                         } else {
                             var otherD = '';
                             if (ki == 1 && _val[2] && _val[2] != '') {
-                                otherD = "<span style='position:absolute;font-size:0.2rem;color:red'>" + _val[2] + "</span>";
+                                otherD = "<div style='position:absolute;font-size:0.2rem;color:red'>" + _val[2] + "</div>";
                             };
                             newtd = '<td>' + otherD + "<div class='thoigian'>" + _val[0] + "</div><div " + color + " class='solieu'>" + _val[1] + "</div>" + '</td>';
                         };
