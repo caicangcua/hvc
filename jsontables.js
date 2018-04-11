@@ -242,15 +242,28 @@ function () {
 function validTime(txt) {
     return /^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$/i.test(txt);
 }
-function dateDiff(txt) {
+
+function offsetDay(baseD, daysToAdd) {
+    var msInDay = 86400000;
+    var milliseconds = baseD.getTime();
+    var newMillisecods = milliseconds + msInDay * daysToAdd;
+    return new Date(newMillisecods);
+}
+function dateDiff(txt, offset) {
     txt = txt.split('-');
-    var d1 = new Date('2000/1/1 ' + txt[0]), d2 = new Date('2000/1/1 ' + txt[1]), diff = new Date(d2) - new Date(d1);
+    var d1 = new Date('2000/1/1 ' + txt[0]), d2 = new Date('2000/1/1 ' + txt[1]);
+    if (offset) {
+        if (d2 < d1) {
+            d2 = offsetDay(d2, 1);
+        };
+    };
+    var diff = new Date(d2) - new Date(d1);
     return Math.floor((diff / 1000) / 60);
 }
 function countLechTime(inputTime) {
     var THs = $('#donelineRow th');
-    var T1 = dateDiff($(THs[0]).find('.thoigian').text()); T1 = parseInt(T1) || 0;
-    var T2 = dateDiff(inputTime); T2 = parseInt(T2) || 0;
+    var T1 = dateDiff($(THs[0]).find('.thoigian').text(), true); T1 = parseInt(T1) || 0;
+    var T2 = dateDiff(inputTime, true); T2 = parseInt(T2) || 0;
     $(THs[2]).find('.thoigian').text(T1 - T2);
 }
 function countLechSL(SL) {
@@ -328,7 +341,7 @@ function showDoneERR() {
             tg = 'Từ giờ không hợp lệ';
         } else if (!validTime(gio[1])) {
             tg = 'Đến giờ không hợp lệ';
-        } else if (dateDiff(inputThoiGian.val()) < 0) {
+        } else if (dateDiff(inputThoiGian.val(), false) < 0) {
             tg = 'Từ giờ >(lớn) hơn Đến giờ';
         };
     };
@@ -349,7 +362,7 @@ function lineDone(el) {
         return;
     } else {
         var msg = '';
-        if (dateDiff($("#inputThoiGian").val()) < 0) {
+        if (dateDiff($("#inputThoiGian").val(), false) < 0) {
             msg = 'Từ giờ >(lớn) hơn Đến giờ! -->Thời gian qua ngày mới.\n\n';
         };
         retVal = prompt(msg + "Bất Thường? ", "");
@@ -407,8 +420,13 @@ function actPanel(focusItem, waitItems) {
 function actInfo(focusItem, waitItems) {
     var _val = focusItem['C1'].split('|');
     //
+    var lastNgay = '';
+    if (_val[2] && _val[2] != '') {
+        lastNgay = "<span style='position:absolute;font-size:0.2rem;color:red'>" + _val[2] + "</span>";
+    };
+
     var tmp = "<tr id='donelineRow' class='head3' style='display:none'>" +
-                    "<th>" +
+                    "<th>" + lastNgay +
                             "<div class='thoigian'>" + _val[0] + "</div><div class='solieu'>" + _val[1] + "</div>" +
                     "</th>" +
                     "<th>";
@@ -433,12 +451,15 @@ function actInfo(focusItem, waitItems) {
 };
 function wait30Item(focusItem) {
     var _val = focusItem['C1'].split('|');
+    var otherD = '';
+    if (_val[2] && _val[2] != '') {
+        otherD = "<span style='position:absolute;font-size:0.2rem;color:red'>" + _val[2] + "</span>";
+    };
     var _taskInfo = focusItem['C0'].split('|');
-
     var tmp = "<td style='position:relative;'>" +
     "<div class='tasklabel' style='font-size:0.6rem'>" + _taskInfo[0] + "</div>" +
     "<div class='half-circle-ribbon'>Lớp: " + _taskInfo[2] + "<br>Dài: " + _taskInfo[4] + "M<br>CT: " + _taskInfo[1] + "<br/>VẢI: " + _taskInfo[3] + "</div></td>" +
-        "<td><div class='thoigian'>" + _val[0] + "</div><div class='solieu' style='color:black'>" + _val[1] + "</div></td>";
+        "<td>" + otherD + "<div class='thoigian'>" + _val[0] + "</div><div class='solieu' style='color:black'>" + _val[1] + "</div></td>";
 
     _val = focusItem['C2'].split('|');
     tmp += "<td><div class='thoigian'>" + _val[0] + "</div><div  style='color:blue' class='solieu'>" + _val[1] + "</div></td>";
@@ -574,7 +595,8 @@ function donelineRowFUNC(focusItem, waitItems) {
                     if ($(fuck).next().text() != _val[1]) {
                         $(fuck).next().text(_val[1]);// khác số lượng
                         $('#inputSL').trigger('blur');
-                    }
+                    };
+                    SPAN_LastNgay(fuck, _val);
                 });
             }
         } else {
@@ -598,6 +620,17 @@ function fix30sndFUNC(wait30) {
             $("<tr id='fix30snd'>" + wait30Item(wait30) + "</tr>").appendTo($('#tieude'));
         };
     };
+}
+
+function SPAN_LastNgay(fuck, _val) {
+    var lastD = $(fuck).prev();
+    if (lastD.length > 0) {
+        if (_val[2] && _val[2] != '') {
+            lastD.text(_val[2]);
+        } else {
+            lastD.remove();
+        }
+    }
 }
 
 //https://github.com/bmsimons/bootstrap-jsontables
@@ -675,6 +708,10 @@ function JSONTable(mapHeader, tableObject) {
                     var _val = jsonSourceData[jr]['C' + (i + 1)].split('|');
                     $(fuck).text(_val[0]);
                     $(fuck).next().text(_val[1]);
+
+                    if (i == 0) {
+                        SPAN_LastNgay(fuck, _val);
+                    };
                 });
                 existR.find('.colabnormal').text(jsonSourceData[jr]['C4']);
                 var _taskInfo = jsonSourceData[jr]['C0'].split('|');
@@ -702,7 +739,11 @@ function JSONTable(mapHeader, tableObject) {
                         } else if (ki == 3) {
                             newtd = '<td>' + "<div class='thoigian' style='text-align:right!important'>" + _val[0] + "</div><div " + color + " class='solieu'>" + _val[1] + "</div>" + '</td>';
                         } else {
-                            newtd = '<td>' + "<div class='thoigian'>" + _val[0] + "</div><div " + color + " class='solieu'>" + _val[1] + "</div>" + '</td>';
+                            var otherD = '';
+                            if (ki == 1 && _val[2] && _val[2] != '') {
+                                otherD = "<span style='position:absolute;font-size:0.2rem;color:red'>" + _val[2] + "</span>";
+                            };
+                            newtd = '<td>' + otherD + "<div class='thoigian'>" + _val[0] + "</div><div " + color + " class='solieu'>" + _val[1] + "</div>" + '</td>';
                         };
                         tableDataRow.append(newtd);
                     };
