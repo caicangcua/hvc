@@ -405,7 +405,7 @@ td {
     -o-transition: all 0.15s ease;
     -ms-transition: all 0.15s ease;
     transition: all 0.15s ease;
-    bottom: 10px;
+    top: 20px;
     right: 10px;
     font-size: .2rem;
 }
