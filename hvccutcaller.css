@@ -1,0 +1,712 @@
+﻿/*<style type="text/css">*/
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -39px 0 0 -39px;
+    border: 8px solid #d8d1d1; /* Light grey */
+    border-top: 8px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loader_frm {
+    z-index: 1501;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+    background-color: #fafafa;
+    color: white;
+    width: 100%;
+    height: 100%;
+    background: -webkit-radial-gradient(rgba(80,0,0,0.1) 0%, rgba(80,0,0,0.2) 30%, rgba(21,11,1,0.7) 100% ), url('img/wood_pattern.png');
+    background: radial-gradient(rgba(80,0,0,0.1) 0%, rgba(80,0,0,0.2) 30%, rgba(21,11,1,0.7) 100% ), url('img/wood_pattern.png');
+    margin: 0px;
+    padding: 0px;
+    font-size: 1rem;
+}
+
+#calllogOuter {
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+}
+
+/*https://www.cssscript.com/demo/pure-html5-css3-responsive-table-solution/*/
+.calllog {
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    /*height: 100%;*/
+    bottom: 0px;
+    top: 0px;
+    table-layout: fixed;
+}
+
+    .calllog caption {
+        font-size: 1.5em;
+        margin: .25em 0 .75em;
+    }
+
+    .calllog tr {
+        border: 1px solid #ddd;
+    }
+
+
+        .calllog tr:first-child {
+            border: none;
+        }
+
+            .calllog tr:first-child th:first-child {
+                position: relative;
+            }
+
+    .calllog th, .calllog td {
+        text-align: center;
+    }
+
+    .calllog th {
+        letter-spacing: .1em;
+        text-transform: uppercase;
+    }
+
+    .calllog td img {
+        text-align: center;
+    }
+
+    .calllog td:first-child {
+        border: 1px solid #ccc;
+        text-align: left;
+    }
+
+.cmdcol {
+    position: absolute;
+    top: -30px;
+    padding: 10px;
+    font-size: 1rem;
+    text-align: center;
+    display: table-cell;
+    width: 14%;
+}
+
+.calllog td:nth-child(1), .calllog td:nth-child(5),
+.calllog th:nth-child(1), .calllog th:nth-child(5) {
+    width: 14%;
+}
+
+.calllog td:nth-last-child(1), .calllog th:nth-last-child(1) {
+    width: 25%;
+}
+
+.calllog td:nth-last-child(1) {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.calllog td:nth-last-child(2) {
+    text-align: right;
+    padding-right: 10px;
+}
+
+#calllogBODY {
+    position: absolute;
+    bottom: 0px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+
+/*@media screen and (max-width: 600px) {
+
+            table {
+                border: 0;
+            }
+
+                table caption {
+                    font-size: 1.3em;
+                }
+
+                table thead {
+                    display: none;
+                }
+
+                table tr {
+                    border-bottom: 3px solid #ddd;
+                    display: block;
+                    margin-bottom: .625em;
+                }
+
+                table td {
+                    border-bottom: 1px solid #ddd;
+                    display: block;
+                    font-size: .8em;
+                    text-align: right;
+                }
+
+                    table td:before {
+                        content: attr(data-label);
+                        float: left;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                    }
+
+                    table td:last-child {
+                        border-bottom: 0;
+                    }
+        }*/
+/*https://codepen.io/gfrancesca/pen/JXweoq*/
+/*https://www.jqueryscript.net/demo/Beautiful-Table-Plugin-with-CSS3/*/
+/* Table 3 Style */
+
+.table3 {
+    font-family: Arial;
+    font-style: normal;
+    font-weight: normal;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    text-align: center;
+    border-collapse: collapse;
+    position: relative;
+    width: 100%;
+}
+
+    .table3 thead th {
+        text-transform: uppercase;
+        color: #444;
+        font-weight: bold;
+        text-shadow: 1px 1px 1px #fff;
+        border-bottom: 5px solid #444;
+    }
+
+        .table3 thead th:empty {
+            background: transparent;
+            border: none;
+        }
+
+    .table3 thead :nth-child(2),
+    .table3 tfoot :nth-child(2) {
+        background-color: #7FD2FF;
+    }
+
+    .table3 tfoot :nth-child(2) {
+        -moz-border-radius: 0px 0px 0px 5px;
+        -webkit-border-bottom-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+
+    .table3 thead :nth-child(2) {
+        -moz-border-radius: 5px 0px 0px 0px;
+        -webkit-border-top-left-radius: 5px;
+        border-top-left-radius: 5px;
+    }
+
+    .table3 thead :nth-child(3),
+    .table3 tfoot :nth-child(3) {
+        background-color: #45A8DF;
+    }
+
+    .table3 thead :nth-child(4),
+    .table3 tfoot :nth-child(4) {
+        background-color: #2388BF;
+    }
+
+    .table3 thead :nth-child(5),
+    .table3 tfoot :nth-child(5) {
+        background-color: #096A9F;
+    }
+
+    .table3 thead :nth-child(5) {
+        -moz-border-radius: 0px 5px 0px 0px;
+        -webkit-border-top-right-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .table3 tfoot :nth-child(5) {
+        -moz-border-radius: 0px 0px 5px 0px;
+        -webkit-border-bottom-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
+    .table3 tfoot td {
+        font-size: 38px;
+        font-weight: bold;
+        padding: 15px 0px;
+        text-shadow: 1px 1px 1px #fff;
+    }
+
+    .table3 tbody td {
+        padding: 0px;
+    }
+
+    .table3 tbody tr:nth-child(4) td {
+        /*font-size: 26px;
+            font-weight: bold;*/
+    }
+
+    .table3 tbody td:nth-child(even) {
+        background-color: #444;
+        color: #444;
+        border-bottom: 1px solid #444;
+        background: -webkit-gradient( linear, left bottom, left top, color-stop(0.39, rgb(189,189,189)), color-stop(0.7, rgb(224,224,224)) );
+        background: -moz-linear-gradient( center bottom, rgb(189,189,189) 39%, rgb(224,224,224) 70% );
+        text-shadow: 1px 1px 1px #fff;
+        vertical-align: top;
+    }
+
+    .table3 tbody td:nth-child(odd) {
+        /*background-color: #555;*/
+        color: #f0f0f0;
+        border-bottom: 1px solid #444;
+        /*background: -webkit-gradient( linear, left bottom, left top, color-stop(0.39, rgb(85,85,85)), color-stop(0.7, rgb(105,105,105)) );
+            background: -moz-linear-gradient( center bottom, rgb(85,85,85) 39%, rgb(105,105,105) 70% );*/
+        text-shadow: 1px 1px 1px #000;
+    }
+
+    .table3 tbody td:nth-last-child(1) {
+        /*border-right: 1px solid #222;*/
+        background: none;
+        text-align: center;
+        border-color: #444;
+        /*width: 150px;
+            border: none;*/
+        position: relative;
+        vertical-align: top;
+        width: 10%;
+        padding: 0px 60px;
+    }
+
+    .table3 tbody th {
+        color: #696969;
+        border-right: 1px solid #aaa;
+        border-bottom: 1px solid #444;
+        width: 10%;
+        text-align: right;
+        position: relative;
+        vertical-align: top;
+    }
+
+.taskpn {
+    float: left;
+    display: inline-block;
+    width: 100%;
+}
+
+.taskid {
+    color: red;
+    float: left;
+    display: block;
+    margin-left: 10px;
+}
+
+.partno {
+    float: right;
+    display: block;
+    margin-right: 10px;
+}
+
+.ghichu {
+    font-size: 80%;
+}
+
+.soluong {
+    padding-left: 30px;
+}
+
+.table3check:after {
+    /*content: url(check2.png);
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            margin-top: -6px;
+            margin-left: 20px;*/
+}
+
+.img-circle {
+    background-color: white;
+    -moz-background-clip: padding; /* Firefox 3.6 */
+    -webkit-background-clip: padding; /* Safari 4? Chrome 6? */
+    background-clip: padding-box; /* Firefox 4, Safari 5, Opera 10, IE 9 */
+    border: 10px solid rgba(0,0,0,0.2);
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    display: table-cell;
+    /*text-align: center;
+            margin: auto;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: contain;*/
+}
+
+.img-td {
+    position: relative;
+}
+
+.soluong-td {
+    vertical-align: top;
+    position: relative;
+    overflow: hidden;
+    text-align: right;
+}
+
+.soluong-input {
+    font-size: inherit;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    /*background: none;*/
+    text-shadow: 1px 1px 1px #fff;
+    color: blue;
+    text-align: right;
+    border: none;
+    background: -webkit-gradient( linear, left bottom, left top, color-stop(0.39, rgb(105,105,105)), color-stop(0.7,rgb(85,85,85) ) );
+    background: -moz-linear-gradient( center bottom,rgb(105,105,105)39%, rgb(85,85,85) 70% );
+    border-top: 1px dashed #444;
+}
+
+.call-time {
+    position: absolute;
+    white-space: nowrap;
+    bottom: 0px;
+    color: white;
+    font-weight: normal;
+    text-transform: none;
+}
+
+.ellapsetime {
+    position: absolute;
+    white-space: nowrap;
+    bottom: 0px;
+    color: white;
+    font-weight: normal;
+    font-size: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    text-transform: none;
+    font-size: 50%;
+}
+
+.agent-call {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    font-size: 40%;
+}
+
+.nomachine {
+    padding: 10px;
+    text-rendering: optimizeLegibility;
+    padding-top: 0px;
+}
+
+    .nomachine h1 {
+        white-space: nowrap;
+        font-size: inherit;
+        margin: 0;
+        color: #fff;
+        text-shadow: 0 1px 0 #cccccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbbbbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaaaaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.2), 0 20px 20px rgba(0, 0, 0, 0.15);
+        -webkit-transition: .2s all linear;
+    }
+
+#nodataMsg {
+    background-color: #11a9e2;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0d86b3), to(#11a9e2));
+    background-image: -moz-linear-gradient(#0d86b3, #11a9e2);
+    background-repeat: no-repeat;
+    padding: 50px;
+    font-size: 2rem;
+    position: absolute;
+    /*float: left;*/
+    top: 45%;
+    /*left: 50%;*/
+    /*transform: translate(-50%, -50%);*/
+    transform: translateY(-50%);
+    transition-duration: 0s;
+    text-align: center;
+    left: 0px;
+    right: 0px;
+}
+/*</style>
+
+    <style class="cp-pen-styles">*/
+.tracfic-light {
+    background-size: 5px 5px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 5px auto;
+}
+
+.red {
+    background: red;
+    background-image: radial-gradient(brown, transparent);
+    animation: 5s splash infinite;
+    border: dotted 2px red;
+    box-shadow: 0 0 20px #111 inset, 0 0 10px red;
+}
+
+.yellow {
+    background: yellow;
+    background-image: radial-gradient(orange, transparent);
+    border: dotted 2px yellow;
+    animation: 5s splash infinite;
+    box-shadow: 0 0 20px #111 inset, 0 0 10px yellow;
+}
+
+.green {
+    background: green;
+    background-image: radial-gradient(lime, transparent);
+    border: dotted 2px lime;
+    box-shadow: 0 0 20px #111 inset, 0 0 10px lime;
+    animation: 5s splash infinite;
+}
+
+@keyframes splash {
+    0% {
+        opacity: .1;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    20% {
+        opacity: .1;
+    }
+
+    30% {
+        opacity: 1;
+    }
+
+    40% {
+        opacity: .1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    60% {
+        opacity: .1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: .1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: .1;
+    }
+}
+
+.delivery {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+/*</style>
+
+    <style type="text/css">*/
+/*https://freshdesignweb.com/css3-buttons/*/
+/*https://www.thuthuatweb.net/demo/pagination-css3/#*/
+.pagination {
+    list-style: none;
+    display: table;
+    padding: 0;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+    .pagination li {
+        display: inline;
+        text-align: center;
+    }
+
+    .pagination a {
+        float: left;
+        display: block;
+        text-decoration: none;
+        padding: 5px 12px;
+        color: #fff;
+        margin-left: -1px;
+        border: 1px solid transparent;
+        line-height: 1.5;
+    }
+
+        .pagination a.active {
+            cursor: default;
+        }
+
+        .pagination a:active {
+            outline: none;
+        }
+
+.modal-5 {
+    font-size: 1rem;
+    margin-top: 0px;
+}
+
+    .modal-5:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 35px;
+        left: 0;
+        bottom: 0;
+        z-index: -1;
+        background-image: -moz-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.65) 40%, rgba(0, 0, 0, 0.65) 50%, rgba(0, 0, 0, 0.65) 60%, rgba(0, 0, 0, 0) 100%);
+        background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.65) 40%, rgba(0, 0, 0, 0.65) 50%, rgba(0, 0, 0, 0.65) 60%, rgba(0, 0, 0, 0) 100%);
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.65) 40%, rgba(0, 0, 0, 0.65) 50%, rgba(0, 0, 0, 0.65) 60%, rgba(0, 0, 0, 0) 100%);
+    }
+
+    .modal-5 a {
+        color: #666;
+        padding: 13px 5px 5px;
+        margin: 0 10px;
+        position: relative;
+    }
+
+        .modal-5 a:hover {
+            color: #fff;
+        }
+
+            .modal-5 a:hover:after {
+                content: '';
+                position: absolute;
+                width: 24px;
+                height: 24px;
+                background: #1E7EE2;
+                -moz-border-radius: 100%;
+                -webkit-border-radius: 100%;
+                border-radius: 100%;
+                z-index: -1;
+                left: -3px;
+                bottom: 4px;
+                margin: auto;
+            }
+
+        .modal-5 a.next, .modal-5 a.prev {
+            color: #1E7EE2;
+        }
+
+            .modal-5 a.next:hover, .modal-5 a.prev:hover {
+                color: #fff;
+            }
+
+                .modal-5 a.next:hover:after, .modal-5 a.prev:hover:after {
+                    display: none;
+                }
+
+        .modal-5 a.active {
+            background: #1E7EE2;
+            color: #fff;
+        }
+
+            .modal-5 a.active:before {
+                content: '';
+                position: absolute;
+                top: -11px;
+                left: -10px;
+                width: 18px;
+                border: 10px solid transparent;
+                border-bottom: 7px solid #104477;
+                z-index: -1;
+            }
+
+            .modal-5 a.active:hover:after {
+                display: none;
+            }
+/*</style>
+    <style type="text/css">*/
+/* Smartphones (portrait and landscape) ----------- */
+@media (max-width : 480px) {
+    .table3 {
+        font-size: 1rem;
+    }
+
+    .nomachine h1 {
+        font-size: 1rem;
+    }
+
+    .tracfic-light {
+        width: 20px;
+        height: 20px;
+    }
+
+    .modal-5 a {
+        margin: 0 5px;
+    }
+
+    .modal-5:after {
+        height: 30px;
+        bottom: 2px;
+    }
+}
+
+@media (min-width : 1280px) and (min-height : 720px) {
+    body {
+        font-size: 2.5rem;
+    }
+
+    .calllog {
+        font-size: 1rem;
+    }
+
+    .tracfic-light {
+        width: 30px;
+        height: 30px;
+    }
+
+    .nomachine h1 {
+        font-size: 120%;
+    }
+
+    .soluong-td {
+        min-width: 100px;
+    }
+
+
+
+    .taskid {
+        font-size: 120%;
+    }
+
+    .partno {
+        font-size: 120%;
+    }
+
+    .ghichu {
+        font-size: 70%;
+    }
+}
+/*</style>*/
