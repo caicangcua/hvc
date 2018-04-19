@@ -31,19 +31,6 @@
     top: 0px;
 }
 
-body {
-    font-family: "Open Sans", sans-serif;
-    background-color: #fafafa;
-    color: white;
-    width: 100%;
-    height: 100%;
-    background: -webkit-radial-gradient(rgba(80,0,0,0.1) 0%, rgba(80,0,0,0.2) 30%, rgba(21,11,1,0.7) 100% ), url('img/wood_pattern.png');
-    background: radial-gradient(rgba(80,0,0,0.1) 0%, rgba(80,0,0,0.2) 30%, rgba(21,11,1,0.7) 100% ), url('img/wood_pattern.png');
-    margin: 0px;
-    padding: 0px;
-    font-size: 1rem;
-}
-
 #calllogOuter {
     position: absolute;
     width: 100%;
