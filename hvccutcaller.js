@@ -5,6 +5,12 @@
         , _WC = new workScreen()
         , _MEMORY = {};
 
+function layoutRender() {
+    if (typeof debugurl_noty === 'function') {
+        url_noty = debugurl_noty();
+    };
+}
+
 function windowRESIZE() {
     var img_circle = $('.img-circle');
     img_circle.each(function () {
