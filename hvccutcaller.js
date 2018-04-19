@@ -1,8 +1,7 @@
 ﻿var url_noty = 'http://brick.dnd.vn/api/cutcaller',
-    loader_frm ,dulieuDIV = $('#dulieu'), pagination = $('#pagination'), calllogOuter = $('#calllogOuter'), calllogHEAD = $('#calllogHEAD'), calllogBODY = $('#calllogBODY')
+    loader_frm ,_WC,dulieuDIV = $('#dulieu'), pagination = $('#pagination'), calllogOuter = $('#calllogOuter'), calllogHEAD = $('#calllogHEAD'), calllogBODY = $('#calllogBODY')
         , _table3 = dulieuDIV.find('.table3'), _table3SIZE = false
         , nodataMsg = $('#nodataMsg')
-        , _WC = new workScreen()
         , _MEMORY = {};
 
 function layoutRender() {
@@ -10,6 +9,7 @@ function layoutRender() {
     if (typeof debugurl_noty === 'function') {
         url_noty = debugurl_noty();
     };
+    _WC = new workScreen()
 }
 
 function windowRESIZE() {
