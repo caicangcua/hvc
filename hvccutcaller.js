@@ -6,6 +6,7 @@
         , _MEMORY = {};
 
 function layoutRender() {
+    $('<button style="position:fixed;z-index:44444444444444" class="delivery" onclick="testpage()">TEST SOUND()</button>').appendTo('body');
     if (typeof debugurl_noty === 'function') {
         url_noty = debugurl_noty();
     };
