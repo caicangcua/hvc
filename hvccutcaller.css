@@ -24,7 +24,7 @@
     }
 
     .calllog tr {
-        border: 1px solid #ddd;
+        border: 1px solid #444;
     }
 
 
@@ -50,7 +50,7 @@
     }
 
     .calllog td:first-child {
-        border: 1px solid #ccc;
+        border: 1px solid #444;
         text-align: left;
     }
 
