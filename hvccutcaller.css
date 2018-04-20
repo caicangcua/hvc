@@ -19,7 +19,9 @@
     border-bottom: 1px solid #444;
 }
 
-
+#calllogHEAD {
+    color:white;
+}
     .calllog caption {
         font-size: 1.5em;
         margin: .25em 0 .75em;
