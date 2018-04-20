@@ -466,7 +466,7 @@ function XuLy_CancelCall(CANCELS) {
                     isSpace = $(removeR[i]).hasClass('dataR');
                 }
             };
-            tb3R(CALLS, false); // fill lại table3 cho đủ 5 rows
+            if (CALLS.length > 0) { tb3R(CALLS, false); };// fill lại table3 cho đủ 5 rows
         };
         PagingUI(isExistR + CALLS.length);
         $(window).trigger("resize");
