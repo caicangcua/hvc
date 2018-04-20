@@ -251,7 +251,7 @@
     }
 
     .table3 tbody th {
-        color: #696969;
+        /*color: #696969;*/
         border-right: 1px solid #aaa;
         border-bottom: 1px solid #444;
         width: 10%;
