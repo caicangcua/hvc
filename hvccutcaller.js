@@ -57,11 +57,6 @@ function autoUpdate() {
 
 function windowRESIZE() {
 
-    try {
-        $('.cmdcol').text(getMediaURL("sounds/incoming_call.mp3"));
-    }catch (err) {
-    }
-
     var img_circle = $('.img-circle');
     img_circle.each(function () {
         $(this).css({ 'width': 0, 'height': 0 });
@@ -150,10 +145,8 @@ function reply_caller(act, TR, retVal) {
     });
 }
 
-
 function workScreen() {
-
-    calllogBODY.on('click', '.gotoPage', function () { _gotoPage(this); playMP3(); });
+    calllogBODY.on('click', '.gotoPage', function () { _gotoPage(this); });
     _table3.on('keydown', 'input[type=tel]', function (e) { ForceNumericOnly(e); });
 
     var that = this, noty_timer = null, noty_duration = 10, limit_noty_timer = 0, counter_noty_timer = 0;
