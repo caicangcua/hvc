@@ -655,9 +655,6 @@
         font-size: 70%;
     }
 
-    #toast-container {
-        font-size: 2rem !important;
-    }
 }
 
 @media (max-width : 480px) and (max-height : 736px) { /*portrait*/
