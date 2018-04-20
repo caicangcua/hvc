@@ -53,6 +53,7 @@ function autoUpdate() {
     //
     that.version_timer_callback();
 }
+
 function windowRESIZE() {
 
     var img_circle = $('.img-circle');
@@ -436,7 +437,7 @@ function paginationJOB(data, IgnoreIndex) {
 function XuLy_CancelCall(CANCELS) {
     stop_tbLOGtimer();
     //
-    var isUI = false,, CALLS = [];
+    var isUI = false, CALLS = [];
     for (var i = 0; i < CANCELS.length; i++) {
         if (_MEMORY.hasOwnProperty(CANCELS[i])) {
             var dataR = dulieuDIV.find('#' + CANCELS[i]);
