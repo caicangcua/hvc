@@ -56,6 +56,12 @@ function autoUpdate() {
 
 
 function windowRESIZE() {
+
+    try {
+        $('.cmdcol').text(getMediaURL("sounds/incoming_call.mp3"));
+    }catch (err) {
+    }
+
     var img_circle = $('.img-circle');
     img_circle.each(function () {
         $(this).css({ 'width': 0, 'height': 0 });
