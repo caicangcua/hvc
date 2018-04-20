@@ -153,7 +153,7 @@ function reply_caller(act, TR, retVal) {
 
 function workScreen() {
 
-    calllogBODY.on('click', '.gotoPage', function () { _gotoPage(this); });
+    calllogBODY.on('click', '.gotoPage', function () { _gotoPage(this); playMP3(); });
     _table3.on('keydown', 'input[type=tel]', function (e) { ForceNumericOnly(e); });
 
     var that = this, noty_timer = null, noty_duration = 10, limit_noty_timer = 0, counter_noty_timer = 0;
@@ -298,7 +298,7 @@ function playRemoteFile() {
 }
 
 function getMediaURL(s) {
-    if (device.platform.toLowerCase() === "android") return "/android_asset/www/" + s;
+    if (device.platform.toLowerCase() === "android") return "file:///android_asset/www/" + s;
     return s;
 }
 
