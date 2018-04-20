@@ -230,7 +230,7 @@
 
     .table3 tbody td:nth-child(odd) {
         /*background-color: #555;*/
-        color: #f0f0f0;
+        /*color: #f0f0f0;*/
         border-bottom: 1px solid #444;
         /*background: -webkit-gradient( linear, left bottom, left top, color-stop(0.39, rgb(85,85,85)), color-stop(0.7, rgb(105,105,105)) );
             background: -moz-linear-gradient( center bottom, rgb(85,85,85) 39%, rgb(105,105,105) 70% );*/
@@ -344,7 +344,7 @@
     position: absolute;
     white-space: nowrap;
     bottom: 0px;
-    color: white;
+    /*color: white;*/
     font-weight: normal;
     text-transform: none;
 }
@@ -353,7 +353,7 @@
     position: absolute;
     white-space: nowrap;
     bottom: 0px;
-    color: white;
+    /*color: white;*/
     font-weight: normal;
     font-size: 1rem;
     left: 50%;
