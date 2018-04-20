@@ -1,4 +1,10 @@
-﻿var url_noty = 'http://brick.dnd.vn/api/cutcaller';
+﻿var url_noty = 'http://brick.dnd.vn/api/cutcaller',
+ loader_frm, _WC, dulieuDIV = $('#dulieu'), pagination = $('#pagination'), calllogOuter = $('#calllogOuter'), calllogHEAD = $('#calllogHEAD'), calllogBODY = $('#calllogBODY')
+                , _table3 = dulieuDIV.find('.table3'), _table3SIZE = false
+                , nodataMsg = $('#nodataMsg')
+                , _MEMORY = {}
+                , _SERVERMAP = null, cache_VER = null, STATIC_UI = false, _CHUA_LOAD_HET = true, limitTable3R = 5;
+
 
 function layoutRender() {
     if (typeof debugurl_noty === 'function') {
