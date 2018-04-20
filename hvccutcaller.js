@@ -453,15 +453,14 @@ function XuLy_CancelCall(CANCELS) {
         };
     };
     if (isUI) {
-        var removeR = _table3.find('tr'), isSpace = false;
-        for (var i = removeR.length - 1; i >= 0; i--) {
-            if ((isSpace && i == 0) || (!isSpace && $(removeR[i]).hasClass('spaceR'))) {
-                $(removeR[i]).remove();
+        var TB3 = _table3[0], isSpace = false;
+        for (var i = TB3.rows.length - 1; i >= 0 ; i--) {
+            if ((isSpace && i == 0) || (!isSpace && $(TB3.rows[i]).hasClass('spaceR'))) {
+                TB3.deleteRow(i);
             } else {
-                isSpace = $(removeR[i]).hasClass('dataR');
+                isSpace = $(TB3.rows[i]).hasClass('dataR');
             }
         };
-        //
         var isExistR = _table3.find('tr.dataR').length;
         if (isExistR < 5) {
             // nếu table3 không đủ thì phải dời lên
