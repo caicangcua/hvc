@@ -398,18 +398,14 @@ function tb3R(calls, RejustUI) {
 
 function PagingUI() {
     isExistR = _table3.find('tr.dataR').length + calllogBODY.find('table tbody tr').length;
-    if (isExistR > limitTable3R) {
-        _table3.css('position', 'relative');
+    if (isExistR <= limitTable3R) {
+        pagination.css('display', 'none');
+        calllogOuter.css('display', 'none');
+        dulieuDIV.css('height', $(window).height());
+    } else {
         pagination.css('display', '');
         calllogOuter.css('display', '');
-    } else if (isExistR == limitTable3R) {
-        _table3.css('position', 'relative');
-        pagination.css('display', 'none');
-        calllogOuter.css('display', 'none');
-    } else {
-        _table3.css('position', 'absolute');
-        pagination.css('display', 'none');
-        calllogOuter.css('display', 'none');
+        dulieuDIV.css('height', 'auto');
     };
 }
 
