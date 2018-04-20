@@ -191,6 +191,7 @@ function workScreen() {
                             if (data.Results.length > 0) {
                                 var currI = tb3R(data.Results, true);
                                 paginationJOB(data, currI);
+                                PagingUI();
                             } else {
                                 _CHUA_LOAD_HET = false;// load hết rồi data.Results.length=0 ~ TotalRecords>0
                             };
@@ -392,15 +393,19 @@ function tb3R(calls, RejustUI) {
             isExistR += 1;
         }
     };
-    if (RejustUI) { PagingUI(isExistR); };
     return currI;
 }
 
-function PagingUI(isExistR) {
-    if (isExistR >= limitTable3R) {
+function PagingUI() {
+    isExistR = _table3.find('tr.dataR').length + calllogBODY.find('table tbody tr').length;
+    if (isExistR > limitTable3R) {
         _table3.css('position', 'relative');
         pagination.css('display', '');
         calllogOuter.css('display', '');
+    } else if (isExistR == limitTable3R) {
+        _table3.css('position', 'relative');
+        pagination.css('display', 'none');
+        calllogOuter.css('display', 'none');
     } else {
         _table3.css('position', 'absolute');
         pagination.css('display', 'none');
@@ -448,6 +453,15 @@ function XuLy_CancelCall(CANCELS) {
         };
     };
     if (isUI) {
+        var removeR = _table3.find('tr'), isSpace = false;
+        for (var i = removeR.length - 1; i >= 0; i--) {
+            if ((isSpace && i == 0) || (!isSpace && $(removeR[i]).hasClass('spaceR'))) {
+                $(removeR[i]).remove();
+            } else {
+                isSpace = $(removeR[i]).hasClass('dataR');
+            }
+        };
+        //
         var isExistR = _table3.find('tr.dataR').length;
         if (isExistR < 5) {
             // nếu table3 không đủ thì phải dời lên
@@ -458,18 +472,12 @@ function XuLy_CancelCall(CANCELS) {
                 if (_MEMORY.hasOwnProperty(id)) { CALLS[CALLS.length] = _MEMORY[id]; };
                 if (isExistR + CALLS.length >= 5) { break; };
             };
-            var removeR = _table3.find('tr'), isSpace = false;
-            for (var i = removeR.length - 1; i >= 0; i--) {
-                if ((isSpace && i == 0) || (!isSpace && $(removeR[i]).hasClass('spaceR'))) {
-                    $(removeR[i]).remove();
-                } else {
-                    isSpace = $(removeR[i]).hasClass('dataR');
-                }
-            };
             if (CALLS.length > 0) { tb3R(CALLS, false); };// fill lại table3 cho đủ 5 rows
         };
-        PagingUI(isExistR + CALLS.length);
+        //
+        PagingUI();
         $(window).trigger("resize");
+        //
         tbLOG_cmdCOL();//call direct
     };
     //
