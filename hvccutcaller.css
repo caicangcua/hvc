@@ -20,43 +20,44 @@
 }
 
 #calllogHEAD {
-    color:white;
+    color: white;
 }
-    .calllog caption {
-        font-size: 1.5em;
-        margin: .25em 0 .75em;
+
+.calllog caption {
+    font-size: 1.5em;
+    margin: .25em 0 .75em;
+}
+
+.calllog tr {
+    border: 1px solid #444;
+}
+
+
+    .calllog tr:first-child {
+        border: none;
     }
 
-    .calllog tr {
-        border: 1px solid #444;
-    }
-
-
-        .calllog tr:first-child {
-            border: none;
+        .calllog tr:first-child th:first-child {
+            position: relative;
         }
 
-            .calllog tr:first-child th:first-child {
-                position: relative;
-            }
+.calllog th, .calllog td {
+    text-align: center;
+}
 
-    .calllog th, .calllog td {
-        text-align: center;
-    }
+.calllog th {
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
 
-    .calllog th {
-        letter-spacing: .1em;
-        text-transform: uppercase;
-    }
+.calllog td img {
+    text-align: center;
+}
 
-    .calllog td img {
-        text-align: center;
-    }
-
-    .calllog td:first-child {
-        border: 1px solid #444;
-        text-align: left;
-    }
+.calllog td:first-child {
+    border: 1px solid #444;
+    text-align: left;
+}
 
 .cmdcol {
     position: absolute;
@@ -656,7 +657,6 @@
     .ghichu {
         font-size: 70%;
     }
-
 }
 
 @media (max-width : 480px) and (max-height : 736px) { /*portrait*/
@@ -682,7 +682,7 @@
         font-size: 70%;
     }
 
-    .delivery,agent-call button {
+    .delivery, .agent-call button {
         white-space: normal;
         font-size: 0.6rem;
     }
