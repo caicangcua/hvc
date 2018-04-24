@@ -682,7 +682,7 @@
         font-size: 70%;
     }
 
-    .delivery {
+    .delivery,agent-call button {
         white-space: normal;
         font-size: 0.6rem;
     }
