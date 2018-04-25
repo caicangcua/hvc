@@ -630,7 +630,7 @@ function XuLy_CancelCall(CANCELS) {
     //
     start_tbLOGtimer();
 }
-var tbLOGtimer = null, tbLOGduration = 40, limit_tbLOGtimer = 0, counter_tbLOGtimer = 0, _alertM = 5;
+var tbLOGtimer = null, tbLOGduration = 40, limit_tbLOGtimer = 0, counter_tbLOGtimer = 0, _alertM = 10;
 function start_tbLOGtimer() {
     if (limit_tbLOGtimer == 0 || counter_tbLOGtimer <= limit_tbLOGtimer) {
         tbLOGtimer = setTimeout(function () { counter_tbLOGtimer += 1; tbLOGtimer_callback(); }, tbLOGduration * 1000);
