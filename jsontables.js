@@ -980,3 +980,50 @@ function DONE_REORDER(evt) {
 
     window.PurePopup = new Popup();
 }());
+
+function iframeEditTaskID() {
+    IsDonePost = true;
+    $.ajax({
+        url: url_noty,
+        type: "GET",
+        data: {
+            "kind": 'getall',
+            "hostid": hostID,
+            "MayCat": MayCat,
+            "EachDate": EachDate
+        },
+        dataType: 'json',
+        cache: false,
+        timeout: 5000, //5 second timeout
+        success: function (data, textStatus, xhr) {
+            if (data.length > 0) {
+                PurePopup.alert(data, function (result) {
+                    IsDonePost = false; //down flag
+                    if (result.confirm == 'okButton') {
+                        this.params.initMAP["Extra"] = [MayCat, EachDate];
+                        _WC.get_noty('reorder', JSON.stringify(this.params.initMAP));
+                    };
+                });
+            } else {
+                IsDonePost = false; //down flag
+            };
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            IsDonePost = false; //down flag
+        }
+    });
+
+
+
+    //$("#nav-icon2").switchClass("Lean_Mode", "ShowUI", 'slow');
+    ////////verify_guestDomain();
+    ////////adjustUI = new $.Deferred(), loadIFrame = new $.Deferred()
+    //////////
+    ////////$.when(adjustUI.promise(), loadIFrame.promise()).done(function (returnPara1, returnPara2) {
+    ////////    //$('#loadInputScreen').css('display', 'none');
+    ////////    $('#inputFrame').css({ 'height': $(window).height(), 'position': 'static' });//set height for smooth slide
+    ////////    switchPage('11', 'slide-in-from-top');
+    ////////});
+    ////////Show_UI();
+    ////////iFrameEditor();
+};
