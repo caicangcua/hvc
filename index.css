@@ -517,7 +517,7 @@ input, textarea {
 #purePopupWrap {
     display: none;
     position: fixed;
-    z-index: 9999;
+    z-index: 10000001;
     left: 0;
     top: 0;
     width: 100%;
@@ -543,7 +543,7 @@ input, textarea {
 
     #purePopupWrap > div {
         position: fixed;
-        z-index: 99999;
+        z-index: 10000001;
         left: 50%;
         top: 20%;
         margin-left: -170px;
@@ -640,3 +640,78 @@ input, textarea {
         padding: 0px !important;
         margin: 2px !important;
     }
+
+
+.list-type5 {
+        }
+
+            .list-type5 ol {
+                list-style-type: none;
+                list-style-type: decimal !ie; /*IE 7- hack*/
+                margin: 0;
+                margin-left: 1em;
+                padding: 0;
+                counter-reset: li-counter;
+            }
+
+                .list-type5 ol li {
+                    position: relative;
+                    margin-bottom: 1.5em !important;
+                    padding: 0.5em !important;
+                    background-color: lightgray;
+                    padding-left: 58px !important;
+                }
+
+
+                    .list-type5 ol li:before {
+                        position: absolute;
+                        top: -0.3em;
+                        left: -0.2em;
+                        width: 1.8em;
+                        height: 1.2em;
+                        font-size: 2em;
+                        line-height: 1.2;
+                        font-weight: bold;
+                        text-align: center;
+                        color: white;
+                        background-color: #6CD6CC;
+                        transform: rotate(-20deg);
+                        -ms-transform: rotate(-20deg);
+                        -webkit-transform: rotate(-20deg);
+                        z-index: 99;
+                        overflow: hidden;
+                        content: counter(li-counter);
+                        counter-increment: li-counter;
+                    }
+
+        .arrow {
+            width: 0px;
+            height: 0px;
+            border: 10px solid transparent;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            cursor: pointer;
+        }
+
+
+            .arrow.up {
+                border-bottom-color: blue;
+                right: 0px;
+                top: -15px;
+            }
+
+            .arrow.down {
+                border-top-color: gray;
+                right: 0px;
+            }
+
+        .list-type5 ol li span {
+            position: absolute;
+            right: 0px;
+            top: 7px;
+        }
+
+#nav-icon2 {
+    cursor:pointer;
+}
