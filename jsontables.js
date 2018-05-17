@@ -388,16 +388,25 @@ function lineDone(el) {
         PurePopup.prompt({
             title: msg,
             buttons: {
-                okButton: 'Tiếp Tục',
-                cancelButton: 'Bỏ Qua'
+                okButton: 'Hoàn Tất',
+                cancelButton: 'Bỏ Qua',
+                tmpButton: 'Lưu Tạm'
             },
             inputs: {
                 pic: 'Người thao tác đứng máy:',
                 srcno: 'SỐ NGUỒN GỐC:',
                 notes: 'BẤT THƯỜNG:'
+            },
+            confirmBefore: function (btnclick) {
+                if (btnclick == 'cancelButton') {
+                    return true;
+                } else {
+                    return confirm('Vui lòng xác nhận trước khi ' + ((btnclick == 'okButton') ? 'HOÀN TẤT' : 'LƯU TẠM') + '?')
+                };
             }
         }, function (result) {
-            if (result.confirm == 'okButton') {
+            if (result.confirm == 'okButton' || result.confirm == 'tmpButton') {
+                //
                 retVal = result;
                 IsDonePost = true;//prevent
                 //
@@ -824,13 +833,22 @@ function DONE_REORDER(evt) {
             //if (e.target == this.wrap) this.close('noActionCancel');
 
             // TODO: settings: close on click
-            if (e.target.className.indexOf('purePopupButton') != -1) this.close(e.target.className.match(/_(.*)_/)[1]);
+            if (e.target.className && e.target.className != '') {
+                var isOK = true;
+                if (this.params.confirmBefore) {
+                    isOK = this.params.confirmBefore.call(this, e.target.className.match(/_(.*)_/)[1]);
+                };
+                if (isOK) {
+                    if (e.target.className.indexOf('purePopupButton') != -1) this.close(e.target.className.match(/_(.*)_/)[1]);
+                };
+            };
         }.bind(this));
     }
 
     Popup.prototype.setParams = function (params, callback) {
         this.params.title = document.title;
         this.params.callback = null;
+        this.params.confirmBefore = null;
         this.params.buttons = (this.type == 'alert') ? { ok: 'Ok' } : { ok: 'Ok', cancel: 'Cancel' };
         this.params.inputs = { name: 'Please, enter your name' };
 
@@ -855,6 +873,7 @@ function DONE_REORDER(evt) {
 
     Popup.prototype.close = function (confirm) {
         this.wrap.className = 'open';
+        //
         setTimeout(function () {
             this.wrap.className = '';
             var result = { confirm: confirm };
