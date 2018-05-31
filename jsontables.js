@@ -390,7 +390,8 @@ function lineDone(el) {
             buttons: {
                 okButton: 'Hoàn Tất',
                 cancelButton: 'Bỏ Qua',
-                tmpButton: 'Lưu Tạm'
+                tmpButton: 'Lưu Tạm',
+                newButton: 'Cắt Thành Kế Hoạch Mới'
             },
             inputs: {
                 pic: 'Người thao tác đứng máy:',
@@ -401,11 +402,11 @@ function lineDone(el) {
                 if (btnclick == 'cancelButton') {
                     return true;
                 } else {
-                    return confirm('Vui lòng xác nhận trước khi ' + ((btnclick == 'okButton') ? 'HOÀN TẤT' : 'LƯU TẠM') + '?')
+                    return confirm('Vui lòng xác nhận trước khi ' + ((btnclick == 'okButton') ? 'HOÀN TẤT' : ((btnclick == 'tmpButton') ? 'LƯU TẠM' : 'Cắt Thành Kế Hoạch Mới')) + '?')
                 };
             }
         }, function (result) {
-            if (result.confirm == 'okButton' || result.confirm == 'tmpButton') {
+            if (result.confirm == 'okButton' || result.confirm == 'tmpButton' || result.confirm == 'newButton') {
                 //
                 retVal = result;
                 IsDonePost = true;//prevent
@@ -458,6 +459,45 @@ function actPanel(focusItem, waitItems) {
                 "</div";
     return tmp;
 }
+
+function inputH(act, taskrow, el) {
+    IsDonePost = true;//prevent
+    //
+    var _$fuck = $(el).parent(), val = _$fuck.parent().find('#inputSL').val(), tg = _$fuck.find('#inputThoiGian'), atTime = (new Date).toTimeString().slice(0, 5),
+    oldTG = tg.val().split('-'), sTime = '00:00', eTime = '00:00';
+    if (oldTG.length == 2) { sTime = oldTG[0]; eTime = oldTG[1]; } else if (oldTG[0].length > 1) { sTime = oldTG[0]; };
+    if (act == 0) { sTime = atTime } else { eTime = atTime };
+    tg.val(sTime + '-' + eTime);
+
+    $.ajax({
+        url: url_noty,
+        type: "GET",
+        data: {
+            "kind": 'InputTime',
+            "hostid": hostID,
+            "MayCat": MayCat,
+            "EachDate": EachDate,
+            "act": act,
+            "taskrow": taskrow,
+            "donedata": (sTime + '-' + eTime) + '|' + val + '|' + encodeURIComponent(JSON.stringify({ 'confirm': 'newButton', 'notes': '', 'opt1': 0, 'opt2': 0, 'opt3': 0, 'pic': '', 'srcno': '' }))
+        },
+        dataType: 'json',
+        cache: false,
+        timeout: 5000, //5 second timeout
+        success: function (data, textStatus, xhr) {
+            IsDonePost = false;
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            IsDonePost = false;
+        }
+    });
+}
+
+function fuckTaskRow(act, focusItem) {
+    var _taskInfo = focusItem['C0'].split('|');
+    return "<img  onclick='inputH(" + act + "," + '"_' + _taskInfo[5] + '_"' + ",this)' src='img/keyboard.png' style='position: absolute;width: 0.5rem;margin-top: -2px;cursor: pointer;";
+}
+
 function actInfo(focusItem, waitItems) {
     var _val = focusItem['C1'].split('|');
     //
@@ -474,7 +514,8 @@ function actInfo(focusItem, waitItems) {
 
     var _val = focusItem['C2'].split('|');
 
-    tmp += "<div class='thoigian' style='overflow: hidden;position:relative'><input value=" + ((_val[0] != '') ? _val[0] : null) + " id='inputThoiGian' placeholder='00:00-00:00' type='tel' onblur='doneBTN(this,0)'></div>" +
+    tmp += "<div class='thoigian' style='overflow: hidden;position:relative'>" + fuckTaskRow(0, focusItem) + "'/>" +
+        "<input value=" + ((_val[0] != '') ? _val[0] : null) + " id='inputThoiGian' placeholder='00:00-00:00' type='tel' onblur='doneBTN(this,0)'>" + fuckTaskRow(1, focusItem) + "right:0px;'/></div>" +
                          "<div style='color:blue;overflow: hidden;position:relative' class='solieu'><input onblur='doneBTN(this,1)' placeholder='0'  value=" + ((_val[0] != '') ? _val[1] : null) + " id='inputSL' type='tel' maxlength='5'></div>" +
                      "</th>" +
                      "<th>" +
@@ -576,8 +617,8 @@ function ShowFocusItem(focusItem, waitItems) {
             $(window).trigger('resize', 0);
 
             $.mask.definitions['~'] = "[+-]";
-            $(returnPara1).find("#inputThoiGian").mask("99:99-99:99");
-            $(returnPara1).find("#inputSL").ForceNumericOnly();
+            $(returnPara1).find("#inputThoiGian").mask("99:99-99:99").trigger('blur');
+            $(returnPara1).find("#inputSL").ForceNumericOnly().trigger('blur');
 
             //$("input").blur(function () {
             //    $("#nav-icon2").html("Unmasked value: " + $(this).mask());
@@ -616,26 +657,36 @@ function donelineRowFUNC(focusItem, waitItems) {
                 ShowFocusItem(focusItem, waitItems);
             } else {
                 // udpate waiting done
-                var _taskInfo = focusItem['C0'].split('|');
-                var panel = $("#headDonePanel .pricingdiv");
+                var _taskInfo = focusItem['C0'].split('|'), panel = $("#headDonePanel .pricingdiv"), isTaskRow = false;
                 panel.find('.starburst').css('display', (waitItems > 1 ? '' : 'none'));
                 panel.find('#waitItems').text(waitItems);
                 panel.find('li').each(function (i, el) {
                     if (i == 0) {
                         $(el).html("<h1>" + _taskInfo[0] + "</h1>");
                     } else {
+                        var btnDone = $(el).children('div:last');
+                        if (btnDone.attr('data-taskrow') != _taskInfo[5]) { isTaskRow = true; btnDone.attr('data-taskrow', _taskInfo[5]); };
                         $(el).children('div:first').html("<div>Lớp: " + _taskInfo[2] + "<br>Dài: " + _taskInfo[4] + "M<br>CT: " + _taskInfo[1] + "<br/>VẢI: " + _taskInfo[3] + "</div>");
+
                     }
                 });
-                var _val = focusItem['C1'].split('|');
+
+                var _val = focusItem['C2'].split('|'), tg = '', sl = '', inputThoiGian = $("#inputThoiGian"), inputSL = $("#inputSL");
+                if (isTaskRow) {
+                    if (_val.length > 1 && _val[0].length > 1) { inputThoiGian.val(_val[0]); } else { inputThoiGian.val(null); };
+                    if (_val.length >= 2) { inputSL.val(_val[1]); } else { inputSL.val(0); };
+                    inputThoiGian.trigger('blur'); inputSL.trigger('blur');
+                };
+                //
+                _val = focusItem['C1'].split('|');
                 $("#donelineRow").find("th:first").find('.thoigian').each(function (i, fuck) {
                     if ($(fuck).text() != _val[0]) {
                         $(fuck).text(_val[0]);// khác thời gian
-                        $('#inputThoiGian').trigger('blur');
+                        inputThoiGian.trigger('blur');
                     }
                     if ($(fuck).next().text() != _val[1]) {
                         $(fuck).next().text(_val[1]);// khác số lượng
-                        $('#inputSL').trigger('blur');
+                        inputSL.trigger('blur');
                     };
                     SPAN_LastNgay(fuck, _val);
                 });
