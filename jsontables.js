@@ -479,7 +479,7 @@ function inputH(act, taskrow, el) {
             "EachDate": EachDate,
             "act": act,
             "taskrow": taskrow,
-            "donedata": (sTime + '-' + eTime) + '|' + val + '|' + encodeURIComponent(JSON.stringify({ 'confirm': 'newButton', 'notes': '', 'opt1': 0, 'opt2': 0, 'opt3': 0, 'pic': '', 'srcno': '' }))
+            "donedata": (sTime + '-' + eTime) + '|' + val + '|' + encodeURIComponent(JSON.stringify({ 'confirm': 'InputTime', 'notes': '', 'opt1': 0, 'opt2': 0, 'opt3': 0, 'pic': '', 'srcno': '' }))
         },
         dataType: 'json',
         cache: false,
