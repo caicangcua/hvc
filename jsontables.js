@@ -1,66 +1,4 @@
-﻿var loader_frm, _WC, url_noty = 'http://hvc.dnd.vn:8011/api/Lines';
-
-function layoutRender() {
-    var tbHeader = new $.Deferred()
-    var tbData = new $.Deferred()
-    //
-    CreateTableFromJSON(tbHeader);
-
-    $.when(tbHeader.promise(), tbData.promise()).done(function (data1, data2) {
-        console.log("data1 = ", data1);
-        console.log("data2 = ", data2);
-        if (typeof debugurl_noty === 'function') {
-            url_noty = debugurl_noty();
-        };
-        _WC= new workScreen();
-    });
-
-    tbData.resolve('c', 'd');
-}
-
-//temp because update native apk package
-function autoUpdate() {
-    var that = this, VER = '';
-    this.checkVersion = function (causeby) {
-        $.ajax({
-            url: exlink,
-            cache: false,
-            timeout: 3000, //3 second timeout
-            success: function (data, textStatus, xhr) {
-                if (VER == '') {
-                    VER = data.ver;
-                    that.start_version_timer();
-                } else if (parseInt(data.ver) > parseInt(VER)) {//diffirence version
-                    setTimeout(function () { window.location.reload(); }, 1000);
-                    toastr["info"]("Updating new version now ...");
-                } else {
-                    that.start_version_timer();
-                }
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                that.start_version_timer();
-                toastr["error"]("Check new version error, Please check internet connection.");
-            }
-        });
-    };
-    //
-    var version_timer = null, version_duration = 30, limit_version_timer = 0, counter_version_timer = 0;
-    this.start_version_timer = function () {
-        if (limit_version_timer == 0 || counter_version_timer <= limit_version_timer) {
-            version_timer = setTimeout(function () { counter_version_timer += 1; that.version_timer_callback(); }, version_duration * 1000);
-        };
-    };
-    this.stop_version_timer = function () {
-        clearTimeout(version_timer);
-    };
-    this.version_timer_callback = function () {
-        that.checkVersion('timer');
-    };
-    //
-    that.version_timer_callback();
-}
-
-var IsDonePost = false, EachDate = '2000/1/1', MayCat = '-1';
+﻿var IsDonePost = false, EachDate = '2000/1/1', MayCat = '-1';
 function workScreen() {
     //
     var that = this, noty_timer = null, noty_duration = 10, limit_noty_timer = 0, counter_noty_timer = 0;
@@ -468,7 +406,8 @@ function inputH(act, taskrow, el) {
     if (oldTG.length == 2) { sTime = oldTG[0]; eTime = oldTG[1]; } else if (oldTG[0].length > 1) { sTime = oldTG[0]; };
     if (act == 0) { sTime = atTime } else { eTime = atTime };
     tg.val(sTime + '-' + eTime);
-
+    tg.trigger('blur');
+    //
     $.ajax({
         url: url_noty,
         type: "GET",
@@ -516,7 +455,7 @@ function actInfo(focusItem, waitItems) {
 
     tmp += "<div class='thoigian' style='overflow: hidden;position:relative'>" + fuckTaskRow(0, focusItem) + "'/>" +
         "<input value=" + ((_val[0] != '') ? _val[0] : null) + " id='inputThoiGian' placeholder='00:00-00:00' type='tel' onblur='doneBTN(this,0)'>" + fuckTaskRow(1, focusItem) + "right:0px;'/></div>" +
-                         "<div style='color:blue;overflow: hidden;position:relative' class='solieu'><input onblur='doneBTN(this,1)' placeholder='0'  value=" + ((_val[0] != '') ? _val[1] : null) + " id='inputSL' type='tel' maxlength='5'></div>" +
+                         "<div style='color:blue;overflow: hidden;position:relative' class='solieu'><input onblur='doneBTN(this,1)' placeholder='0'  value=" + ((_val[1] != '' && _val[1] != '0') ? _val[1] : "''") + " id='inputSL' type='tel' maxlength='5'></div>" +
                      "</th>" +
                      "<th>" +
                            "<div class='thoigian' style='text-align:right!important'>-</div><div class='solieu'>0</div>" +
