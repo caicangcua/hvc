@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 if ($_POST){
     // Make a array with the values
     $vals = array(
-        'ver'     => 50,'cutcaller'  => 27,'method'=>'$_POST'
+        'ver'     => 51,'cutcaller'  => 27,'method'=>'$_POST'
     );
 
     // Now we want to JSON encode these values to send them to $.ajax success.
