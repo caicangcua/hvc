@@ -12,7 +12,7 @@ function layoutRender() {
         if (typeof debugurl_noty === 'function') {
             url_noty = debugurl_noty();
         };
-        _WC = new workScreen();
+        _WC= new workScreen();
     });
 
     tbData.resolve('c', 'd');
@@ -59,6 +59,7 @@ function autoUpdate() {
     //
     that.version_timer_callback();
 }
+
 
 var IsDonePost = false, EachDate = '2000/1/1', MayCat = '-1';
 function workScreen() {
