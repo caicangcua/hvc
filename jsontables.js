@@ -949,7 +949,7 @@ function DONE_REORDER(evt) {
         this.params.buttons = { ok: 'Ok', cancel: 'Cancel' };
         var buttonsHtml = '<span class="purePopupButton _okButton_" onclick="DONE_REORDER()">Thực Hiện</span><span class="purePopupButton _cancelButton_">Bỏ Qua</span>';
 
-        var fuck = '<div style="top: 0px;width:400px;margin-left: -220px;">' +
+        var fuck = '<div style="top: 2px;width:400px;margin-left: -220px;">' +
                                 '<div>' +
                                     '<div class="purePopupTitle">' + 'Thay Đổi Thứ Tự Kế Hoạch Cắt' + '</div>' +
 '<div class="list-type5">' +

@@ -643,6 +643,12 @@ input, textarea {
 
 
 .list-type5 {
+                max-height: calc(100vh - 105px);
+            overflow-y: auto;
+margin-bottom: 10px!important;
+    margin-left: -25px!important;
+    margin-right: -15px!important;
+    margin-top: -15px!important;
         }
 
             .list-type5 ol {
@@ -660,6 +666,8 @@ input, textarea {
                     padding: 0.5em !important;
                     background-color: lightgray;
                     padding-left: 58px !important;
+                                            margin: 20px!important;
+                         margin-right: 5px!important;
                 }
 
 
