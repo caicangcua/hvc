@@ -723,3 +723,9 @@ margin-bottom: 10px!important;
 #nav-icon2 {
     cursor:pointer;
 }
+
+        .colabnormal >div {
+            word-wrap: break-word;   
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
