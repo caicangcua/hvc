@@ -729,3 +729,29 @@ margin-bottom: 10px!important;
             overflow-wrap: break-word;
             word-break: break-word;
         }
+
+        .list-type5 ol li:hover::before {
+            background-color:yellow;
+            color:red;
+        }
+        .showme{ 
+            display: none;
+        }
+        .list-type5 ol li:hover .showme{
+            display : block;
+        }
+        .arrow1 {
+            width: 0px;
+            height: 0px;
+            border: 12px solid transparent;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            cursor: pointer;
+        }
+        .arrow1.top{
+            border-bottom-color:red ;
+            left: -15px;
+            top: -20px;
+            z-index: 10000000000;
+        }

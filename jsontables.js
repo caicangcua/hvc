@@ -949,14 +949,15 @@ function DONE_REORDER(evt) {
         this.params.buttons = { ok: 'Ok', cancel: 'Cancel' };
         var buttonsHtml = '<span class="purePopupButton _okButton_" onclick="DONE_REORDER()">Thực Hiện</span><span class="purePopupButton _cancelButton_">Bỏ Qua</span>';
 
-        var fuck = '<div style="top: 2px;width:400px;margin-left: -220px;">' +
+        var fuck = '<div style="top:2px;width:400px;margin-left: -220px;">' +
                                 '<div>' +
                                     '<div class="purePopupTitle">' + 'Thay Đổi Thứ Tự Kế Hoạch Cắt' + '</div>' +
 '<div class="list-type5">' +
 '<ol>';
-        var liHTML = '', initMAP = {};
+        var liHTML = '', initMAP = {}, STT = 0;
         for (var i = 0; i < data.length; i++) {
-            liHTML += '<li id="' + data[i].CtrlRowID + '"><div>' + data[i].FF_TaskID + '</div><span><em style="font-size:70%">' + data[i].Time + '</em> <label>(' + data[i].STT + ') </label></span><div class="arrow up"></div><div class="arrow down"></div></li>';
+            var dis = (data[i].Done == '1') ? "style='display:none'" : ('', STT += 1);
+            liHTML += '<li ' + dis + ' id="' + data[i].CtrlRowID + '"><div class="arrow1 top showme"></div><div>' + data[i].FF_TaskID + '</div><span><em style="color:red;background-color:yellow;padding:10px 5px">' + data[i].SL + '</em>/<em style="font-size:70%">' + data[i].Time + '</em> <label>(' + STT + ') </label></span><div class="arrow up"></div><div class="arrow down"></div></li>';
             initMAP[data[i].CtrlRowID] = [data[i].STT, data[i].OrderID];
         };
         this.params.initMAP = initMAP;
@@ -973,25 +974,56 @@ function DONE_REORDER(evt) {
         this.show();
 
         $('.arrow.up').click(function () {
-            var $current = $(this).closest('li')
+            var $current = $(this).closest('li');
+            var isLoop = true;
+            while (isLoop) {
+                var $previous = $current.prev('li');
+                if ($previous.length !== 0) {
+                    isLoop = $previous.css('display') == 'none';
+                    $current.insertBefore($previous);
+                    isReorder($current);
+                    isReorder($previous);
+                } else {
+                    isLoop = false;
+                }
+            }
+            return false;
+        });
+        $('.arrow.down').click(function () {
+            var $current = $(this).closest('li');
+            var isLoop = true;
+            while (isLoop) {
+                var $next = $current.next('li');
+                if ($next.length !== 0) {
+                    isLoop = $next.css('display') == 'none';
+                    $current.insertAfter($next);
+                    isReorder($current);
+                    isReorder($next);
+                } else {
+                    isLoop = false;
+                }
+            }
+            return false;
+        });
+
+        $('.arrow1.top').click(function () {
+            while (jumpTop($(this).closest('li'))) {
+                //code block to be executed
+            }
+            return false;
+        });
+        function jumpTop($current) {
             var $previous = $current.prev('li');
             if ($previous.length !== 0) {
                 $current.insertBefore($previous);
                 isReorder($current);
                 isReorder($previous);
+                return true;
+            } else {
+                return false;
             }
-            return false;
-        });
-        $('.arrow.down').click(function () {
-            var $current = $(this).closest('li')
-            var $next = $current.next('li');
-            if ($next.length !== 0) {
-                $current.insertAfter($next);
-                isReorder($current);
-                isReorder($next);
-            }
-            return false;
-        });
+        }
+
 
         function isReorder(li) {
             var label = li.find('label');
