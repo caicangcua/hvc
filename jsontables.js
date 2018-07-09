@@ -1,4 +1,4 @@
-﻿var loader_frm, _WC, url_noty = 'http://hvc.dnd.vn:8011/api/Lines';
+﻿var loader_frm, _WC, url_noty = 'http://brick.dnd.vn/api/Lines';
 
 function layoutRender() {
     var tbHeader = new $.Deferred()
