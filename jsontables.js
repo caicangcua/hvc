@@ -387,6 +387,7 @@ function lineDone(el) {
         //    return;
         //};
         PurePopup.prompt({
+            rawdata: $(el).attr('data-savetmp'),//"1|1|1|tt|xx|seee",
             title: msg,
             buttons: {
                 okButton: 'Hoàn Tất',
@@ -454,7 +455,7 @@ function actPanel(focusItem, waitItems) {
                     "<ul class='theplan'>" +
                         "<li class='nomachine'><h1>" + _taskInfo[0] + "</h1></li>" +
                         "<li class='activeInfo'><div>Lớp: " + _taskInfo[2] + "<br>Dài: " + _taskInfo[4] + "M<br>CT: " + _taskInfo[1] + "<br/>VẢI: " + _taskInfo[3] + "</div>" +
-                            "<div class='btndone btndone-gray' data-taskrow='" + _taskInfo[5] + "' onclick='lineDone(this)'>DONE!</div>" +
+                            "<div class='btndone btndone-gray' data-savetmp='" + focusItem['C5'] + "' data-taskrow='" + _taskInfo[5] + "' onclick='lineDone(this)'>DONE!</div>" +
                         "</li>" +
                     "</ul>" +
                 "</div";
@@ -669,7 +670,7 @@ function donelineRowFUNC(focusItem, waitItems) {
                         var btnDone = $(el).children('div:last');
                         if (btnDone.attr('data-taskrow') != _taskInfo[5]) { isTaskRow = true; btnDone.attr('data-taskrow', _taskInfo[5]); };
                         $(el).children('div:first').html("<div>Lớp: " + _taskInfo[2] + "<br>Dài: " + _taskInfo[4] + "M<br>CT: " + _taskInfo[1] + "<br/>VẢI: " + _taskInfo[3] + "</div>");
-
+                        btnDone.attr('data-savetmp', focusItem['C5']);
                     }
                 });
 
@@ -1059,18 +1060,30 @@ function DONE_REORDER(evt) {
         this.type = 'prompt';
         this.setParams(p, c);
 
+        var iV = { 'notes': '', 'pic': '', 'srcno': '', 'opt1': '', 'opt2': '', 'opt3': '' };
+        var rd = p.rawdata.split("|");
+        if (rd.length > 0) iV['opt3'] = ((rd[0] == '1') ? 'value=1 checked' : 'value=1');
+        if (rd.length > 1) iV['opt2'] = ((rd[1] == '1') ? 'value=1 checked' : 'value=1');
+        if (rd.length > 2) iV['opt1'] = ((rd[2] == '1') ? 'value=1 checked' : 'value=1');
+        if (rd.length > 3) iV['srcno'] = ((rd[3] != '') ? 'value=' + rd[3] : '');
+        if (rd.length > 4) iV['pic'] = ((rd[4] != '') ? 'value=' + rd[4] : '');
+        if (rd.length > 5) iV['notes'] = ((rd[5] != '') ? 'value=' + rd[5] : '');
+
+
         var inputsHtml = [], tabIndex = 0;
         for (var i in this.params.inputs) {
-            inputsHtml[inputsHtml.length] = '<label for="purePopupInputs_' + i + '">' + this.params.inputs[i] + '</label><input maxlength="' + ((i == 'notes') ? "50" : "20") + '" id="purePopupInputs_' + i + '" name="' + i + '" type="text" tabindex="' + (tabIndex++) + '">';
+            var val = '';
+            if (iV.hasOwnProperty(i)) val = iV[i];
+            inputsHtml[inputsHtml.length] = '<label for="purePopupInputs_' + i + '">' + this.params.inputs[i] + '</label><input ' + val + ' maxlength="' + ((i == 'notes') ? "50" : "20") + '" id="purePopupInputs_' + i + '" name="' + i + '" type="text" tabindex="' + (tabIndex++) + '">';
         };
 
         var buttonsHtml = '';
         for (var i in this.params.buttons) buttonsHtml += '<span class="purePopupButton _' + i + '_">' + this.params.buttons[i] + '</span>';
 
         inputsHtml[inputsHtml.length] = inputsHtml[inputsHtml.length - 1];
-        inputsHtml[inputsHtml.length - 2] = '<div class="sel-div"><input type="checkbox" name="opt1" value="1"><span>KIEM TRA SAN PHAM DAU</span></div>' +
-                                            '<div class="sel-div"><input type="checkbox" name="opt2" value="1"><span>HUONG SO VAI CUA CHI TIET</span></div>' +
-                                            '<div class="sel-div endinput"><input type="checkbox" name="opt3" value="1"><span>KIEM TRA HUONG SILICON</span></div>';
+        inputsHtml[inputsHtml.length - 2] = '<div class="sel-div"><input type="checkbox" name="opt1" ' + iV["opt1"] + '><span>KIEM TRA SAN PHAM DAU</span></div>' +
+                                            '<div class="sel-div"><input type="checkbox" name="opt2" ' + iV["opt2"] + '><span>HUONG SO VAI CUA CHI TIET</span></div>' +
+                                            '<div class="sel-div endinput"><input type="checkbox" name="opt3" ' + iV["opt3"] + '><span>KIEM TRA HUONG SILICON</span></div>';
         //
         this.wrap.innerHTML = '<div>' +
                                 '<div>' +
