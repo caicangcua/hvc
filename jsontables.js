@@ -517,7 +517,7 @@ function actInfo(focusItem, waitItems) {
     var _val = focusItem['C2'].split('|');
 
     tmp += "<div class='thoigian' style='overflow: hidden;position:relative'>" + fuckTaskRow(0, focusItem) + "'/>" +
-        "<input value=" + ((_val[0] != '') ? _val[0] : null) + " id='inputThoiGian' placeholder='00:00-00:00' type='tel' onblur='doneBTN(this,0)'>" + fuckTaskRow(1, focusItem) + "right:0px;'/></div>" +
+        "<input value=" + ((_val[0] != '-') ? _val[0] : "0000-00:00") + " id='inputThoiGian' placeholder='00:00-00:00' type='tel' onblur='doneBTN(this,0)'>" + fuckTaskRow(1, focusItem) + "right:0px;'/></div>" +
                          "<div style='color:blue;overflow: hidden;position:relative' class='solieu'><input onblur='doneBTN(this,1)' placeholder='0'  value=" + ((_val[1] != '' && _val[1] != '0') ? _val[1] : "''") + " id='inputSL' type='tel' maxlength='5'></div>" +
                      "</th>" +
                      "<th>" +
