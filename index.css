@@ -786,7 +786,8 @@ margin-bottom: 10px!important;
 	cursor: pointer;
 	display: block;
 	width: 100%;
-	font: Menu;
+	font-size: 16px;
+    font-family: Helvetica, Arial, sans-serif;
 	overflow: hidden;
 }
 
