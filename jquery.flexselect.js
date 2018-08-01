@@ -1,1 +1,447 @@
-var LiquidMetal = (function () { var i = 0; var a = 1; var e = 0.8; var h = 0.9; var c = 0.85; var d = " \t_-"; return { lastScore: null, lastScoreArray: null, score: function (q, k) { if (k.length === 0) { return e } if (k.length > q.length) { return i } var r = []; var t = q.toLowerCase(); k = k.toLowerCase(); this._scoreAll(q, t, k, -1, 0, [], r); if (r.length == 0) { return 0 } var s = 0, m = []; for (var p = 0; p < r.length; p++) { var l = r[p]; var o = 0; for (var n = 0; n < q.length; n++) { o += l[n] } if (o > s) { s = o; m = l } } s /= q.length; this.lastScore = s; this.lastScoreArray = m; return s }, _scoreAll: function (m, u, j, s, r, l, o) { if (r == j.length) { var p = (u.charAt(0) == j.charAt(0)); var t = p ? h : e; f(l, t, l.length, m.length); o.push(l.slice(0)); return } var q = j.charAt(r); r++; var n = u.indexOf(q, s); if (n == -1) { return } var k = s; while ((n = u.indexOf(q, s + 1)) != -1) { if (b(m, n)) { l[n - 1] = 1; f(l, c, k + 1, n - 1) } else { if (g(m, n)) { f(l, c, k + 1, n) } else { f(l, i, k + 1, n) } } l[n] = a; s = n; this._scoreAll(m, u, j, s, r, l, o) } } }; function g(k, j) { var l = k.charAt(j); return ("A" <= l && l <= "Z") } function b(k, j) { var l = k.charAt(j - 1); return (d.indexOf(l) != -1) } function f(n, k, m, l) { for (var j = m; j < l; j++) { n[j] = k } return n } })(); (function (a) { a.flexselect = function (b, c) { this.init(b, c) }; a.extend(a.flexselect.prototype, { settings: { allowMismatch: false, allowMismatchBlank: true, sortBy: "score", blankSortBy: "initial", preSelection: true, hideDropdownOnEmptyInput: false, selectedClass: "flexselect_selected", dropdownClass: "flexselect_dropdown", showDisabledOptions: false, inputIdTransform: function (b) { return b + "_flexselect" }, inputNameTransform: function (b) { return }, dropdownIdTransform: function (b) { return b + "_flexselect_dropdown" } }, select: null, input: null, dropdown: null, dropdownList: null, cache: [], results: [], lastAbbreviation: null, abbreviationBeforeFocus: null, selectedIndex: 0, picked: false, allowMouseMove: true, dropdownMouseover: false, indexOptgroupLabels: false, init: function (b, c) { this.settings = a.extend({}, this.settings, c); this.select = a(b); this.reloadCache(); this.renderControls(); this.wire() }, reloadCache: function () { var c, e, f, d; var b = this.settings.indexOptgroupLabels; this.cache = this.select.find("option").map(function () { c = a(this).text(); e = a(this).parent("optgroup").attr("label"); f = b ? [c, e].join(" ") : c; d = a(this).parent("optgroup").attr("disabled") || a(this).attr("disabled"); return { text: a.trim(f), name: a.trim(c), value: a(this).val(), disabled: d, score: 0 } }) }, renderControls: function () { var b = this.settings.preSelection ? this.select.find("option:selected") : null, c = this; this.input = a("<input type='text' autocomplete='off' />").attr({ id: this.settings.inputIdTransform(this.select.attr("id")), name: this.settings.inputNameTransform(this.select.attr("name")), accesskey: this.select.attr("accesskey"), tabindex: this.select.attr("tabindex"), style: this.select.attr("style"), placeholder: this.select.attr("data-placeholder") }).addClass(this.select.attr("class")).val(a.trim(b ? b.text() : "")).css({ visibility: "visible" }); this.dropdown = a("<div></div>").attr({ id: this.settings.dropdownIdTransform(this.select.attr("id")) }).addClass(this.settings.dropdownClass); this.dropdownList = a("<ul></ul>"); this.dropdown.append(this.dropdownList); this.select.after(this.input).hide(); a("body").append(this.dropdown); a(window).on("resize", function () { c.dropdown.hide() }) }, wire: function () { var c = this; this.input.click(function () { c.lastAbbreviation = null; c.focus() }); this.input.mouseup(function (d) { d.preventDefault() }); this.input.focus(function () { c.abbreviationBeforeFocus = c.input.val(); c.input[0].setSelectionRange(0, c.input.val().length); if (!c.picked) { c.filterResults() } }); this.input.blur(function () { if (!c.dropdownMouseover) { c.hide(); if (c.settings.allowMismatchBlank && a.trim(a(this).val()) == "") { c.setValue("") } else { if (!c.settings.allowMismatch && !c.picked) { c.reset() } } } }); this.dropdownList.mouseover(function (d) { if (!c.allowMouseMove) { c.allowMouseMove = true; return } if (d.target.tagName == "LI") { var e = c.dropdown.find("li"); c.markSelected(e.index(a(d.target))) } }); this.dropdownList.mouseleave(function () { c.markSelected(-1) }); this.dropdownList.mouseup(function (d) { c.pickSelected(); c.focusAndHide() }); this.dropdownList.bind("touchstart", function (d) { if (d.target.tagName == "LI") { var e = c.dropdown.find("li"); c.markSelected(e.index(a(d.target))) } }); this.dropdown.mouseover(function (d) { c.dropdownMouseover = true }); this.dropdown.mouseleave(function (d) { c.dropdownMouseover = false }); this.dropdown.mousedown(function (d) { d.preventDefault() }); this.input.keyup(function (d) { switch (d.keyCode) { case 13: d.preventDefault(); c.pickSelected(); c.focusAndHide(); break; case 27: d.preventDefault(); c.reset(); c.focusAndHide(); break; default: c.filterResults(); break } }); this.input.keydown(function (d) { switch (d.keyCode) { case 9: c.pickSelected(); c.hide(); break; case 33: d.preventDefault(); c.markFirst(); break; case 34: d.preventDefault(); c.markLast(); break; case 38: d.preventDefault(); c.moveSelected(-1); break; case 40: d.preventDefault(); c.moveSelected(1); break; case 13: case 27: d.preventDefault(); d.stopPropagation(); break } }); var b = this.input; this.select.change(function () { b.val(a.trim(a(this).find("option:selected").text())) }) }, filterResults: function () { var d = this.settings.showDisabledOptions; var e = a.trim(this.input.val()); var c = (e == "") ? this.settings.blankSortBy : this.settings.sortBy; if (e == this.lastAbbreviation) { return } var b = []; a.each(this.cache, function () { if (this.disabled && !d) { return } this.score = LiquidMetal.score(this.text, e); if (this.score > 0) { b.push(this) } }); this.results = b; this.sortResultsBy(c); this.renderDropdown(); this.markFirst(); this.lastAbbreviation = e; this.picked = false; this.allowMouseMove = false; if (this.settings.hideDropdownOnEmptyInput) { if (e == "") { this.dropdown.hide() } else { this.dropdown.show() } } }, sortResultsBy: function (b) { if (b == "score") { this.sortResultsByScore() } else { if (b == "name") { this.sortResultsByName() } } }, sortResultsByScore: function () { this.results.sort(function (d, c) { return c.score - d.score }) }, sortResultsByName: function () { this.results.sort(function (d, c) { return d.name < c.name ? -1 : (d.name > c.name ? 1 : 0) }) }, renderDropdown: function () { var f = this.settings.showDisabledOptions; var e = this.dropdown.outerWidth() - this.dropdown.innerWidth(); var d = this.input.offset(); this.dropdown.css({ width: (this.input.outerWidth() - e) + "px", top: (d.top + this.input.outerHeight()) + "px", left: d.left + "px", maxHeight: "" }); var c = ""; var b = ""; a.each(this.results, function () { if (this.disabled && !f) { return } b = this.disabled ? ' class="disabled"' : ""; c += "<li" + b + ">" + this.name + "</li>" }); this.dropdownList.html(c); this.adjustMaxHeight(); this.dropdown.show() }, adjustMaxHeight: function () { var c = a(window).height() + a(window).scrollTop() - this.dropdown.outerHeight(); var b = parseInt(this.dropdown.css("top"), 10); this.dropdown.css("max-height", b > c ? (Math.max(0, c - b + this.dropdown.innerHeight()) + "px") : "") }, markSelected: function (f) { if (f < 0 || f >= this.results.length) { return } var b = this.dropdown.find("li"); b.removeClass(this.settings.selectedClass); var d = a(b[f]); if (d.hasClass("disabled")) { this.selectedIndex = null; return } this.selectedIndex = f; d.addClass(this.settings.selectedClass); var c = d.position().top; var e = c + d.outerHeight() - this.dropdown.height(); if (e > 0) { this.allowMouseMove = false; this.dropdown.scrollTop(this.dropdown.scrollTop() + e) } else { if (c < 0) { this.allowMouseMove = false; this.dropdown.scrollTop(Math.max(0, this.dropdown.scrollTop() + c)) } } }, pickSelected: function () { var b = this.results[this.selectedIndex]; if (b && !b.disabled) { this.input.val(b.name); this.setValue(b.value); this.picked = true } else { if (this.settings.allowMismatch) { this.setValue.val("") } else { this.reset() } } }, setValue: function (b) { if (this.select.val() === b) { return } this.select.val(b).change() }, hide: function () { this.dropdown.hide(); this.lastAbbreviation = null }, moveSelected: function (b) { this.markSelected(this.selectedIndex + b) }, markFirst: function () { this.markSelected(0) }, markLast: function () { this.markSelected(this.results.length - 1) }, reset: function () { this.input.val(this.abbreviationBeforeFocus) }, focus: function () { this.input.focus() }, focusAndHide: function () { this.focus(); this.hide() } }); a.fn.flexselect = function (b) { this.each(function () { if (a(this).data("flexselect")) { a(this).data("flexselect").reloadCache() } else { if (this.tagName == "SELECT") { a(this).data("flexselect", new a.flexselect(this, b)) } } }); return this } })(jQuery);
+var LiquidMetal = (function () {
+    var SCORE_NO_MATCH = 0.0;
+    var SCORE_MATCH = 1.0;
+    var SCORE_TRAILING = 0.8;
+    var SCORE_TRAILING_BUT_STARTED = 0.9;
+    var SCORE_BUFFER = 0.85;
+    var WORD_SEPARATORS = " \t_-";
+
+    return {
+        lastScore: null,
+        lastScoreArray: null,
+
+        score: function (string, abbrev) {
+            // short circuits
+            if (abbrev.length === 0) return SCORE_TRAILING;
+            if (abbrev.length > string.length) return SCORE_NO_MATCH;
+
+            // match & score all
+            var allScores = [];
+            var search = string.toLowerCase();
+            abbrev = abbrev.toLowerCase();
+            this._scoreAll(string, search, abbrev, -1, 0, [], allScores);
+
+            // complete miss
+            if (allScores.length == 0) return 0;
+
+            // sum per-character scores into overall scores,
+            // selecting the maximum score
+            var maxScore = 0.0, maxArray = [];
+            for (var i = 0; i < allScores.length; i++) {
+                var scores = allScores[i];
+                var scoreSum = 0.0;
+                for (var j = 0; j < string.length; j++) { scoreSum += scores[j]; }
+                if (scoreSum > maxScore) {
+                    maxScore = scoreSum;
+                    maxArray = scores;
+                }
+            }
+
+            // normalize max score by string length
+            // s. t. the perfect match score = 1
+            maxScore /= string.length;
+
+            // record maximum score & score array, return
+            this.lastScore = maxScore;
+            this.lastScoreArray = maxArray;
+            return maxScore;
+        },
+
+        _scoreAll: function (string, search, abbrev, searchIndex, abbrIndex, scores, allScores) {
+            // save completed match scores at end of search
+            if (abbrIndex == abbrev.length) {
+                // add trailing score for the remainder of the match
+                var started = (search.charAt(0) == abbrev.charAt(0));
+                var trailScore = started ? SCORE_TRAILING_BUT_STARTED : SCORE_TRAILING;
+                fillArray(scores, trailScore, scores.length, string.length);
+                // save score clone (since reference is persisted in scores)
+                allScores.push(scores.slice(0));
+                return;
+            }
+
+            // consume current char to match
+            var c = abbrev.charAt(abbrIndex);
+            abbrIndex++;
+
+            // cancel match if a character is missing
+            var index = search.indexOf(c, searchIndex);
+            if (index == -1) return;
+
+            // match all instances of the abbreviaton char
+            var scoreIndex = searchIndex; // score section to update
+            while ((index = search.indexOf(c, searchIndex + 1)) != -1) {
+                // score this match according to context
+                if (isNewWord(string, index)) {
+                    scores[index - 1] = 1;
+                    fillArray(scores, SCORE_BUFFER, scoreIndex + 1, index - 1);
+                }
+                else if (isUpperCase(string, index)) {
+                    fillArray(scores, SCORE_BUFFER, scoreIndex + 1, index);
+                }
+                else {
+                    fillArray(scores, SCORE_NO_MATCH, scoreIndex + 1, index);
+                }
+                scores[index] = SCORE_MATCH;
+
+                // consume matched string and continue search
+                searchIndex = index;
+                this._scoreAll(string, search, abbrev, searchIndex, abbrIndex, scores, allScores);
+            }
+        }
+    };
+
+    function isUpperCase(string, index) {
+        var c = string.charAt(index);
+        return ("A" <= c && c <= "Z");
+    }
+
+    function isNewWord(string, index) {
+        var c = string.charAt(index - 1);
+        return (WORD_SEPARATORS.indexOf(c) != -1);
+    }
+
+    function fillArray(array, value, from, to) {
+        for (var i = from; i < to; i++) { array[i] = value; }
+        return array;
+    }
+})();
+
+(function ($) {
+    $.flexselect = function (select, options) { this.init(select, options); };
+
+    $.extend($.flexselect.prototype, {
+        settings: {
+            allowMismatch: false,
+            allowMismatchBlank: true, // If "true" a user can backspace such that the value is nothing (even if no blank value was provided in the original criteria)
+            sortBy: 'score', // 'score' || 'name'
+            blankSortBy: 'initial', // 'score' || 'name' || 'initial'
+            preSelection: true,
+            hideDropdownOnEmptyInput: false,
+            selectedClass: "flexselect_selected",
+            dropdownClass: "flexselect_dropdown",
+            showDisabledOptions: false,
+            inputIdTransform: function (id) { return id + "_flexselect"; },
+            inputNameTransform: function (name) { return; },
+            dropdownIdTransform: function (id) { return id + "_flexselect_dropdown"; }
+        },
+        select: null,
+        input: null,
+        dropdown: null,
+        dropdownList: null,
+        cache: [],
+        results: [],
+        lastAbbreviation: null,
+        abbreviationBeforeFocus: null,
+        selectedIndex: 0,
+        picked: false,
+        allowMouseMove: true,
+        dropdownMouseover: false, // Workaround for poor IE behaviors
+        indexOptgroupLabels: false,
+
+        init: function (select, options) {
+            this.settings = $.extend({}, this.settings, options);
+            this.select = $(select);
+            this.reloadCache();
+            this.renderControls();
+            this.wire();
+        },
+
+        reloadCache: function () {
+            var name, group, text, disabled;
+            var indexGroup = this.settings.indexOptgroupLabels;
+            this.cache = this.select.find("option").map(function () {
+                name = $(this).text();
+                group = $(this).parent("optgroup").attr("label");
+                text = indexGroup ? [name, group].join(" ") : name;
+                disabled = $(this).parent("optgroup").attr("disabled") || $(this).attr('disabled');
+                return { text: $.trim(text), name: $.trim(name), value: $(this).val(), disabled: disabled, score: 0.0 };
+            });
+        },
+
+        renderControls: function () {
+            var selected = this.settings.preSelection ? this.select.find("option:selected") : null, that = this;
+
+            this.input = $("<input type='text' autocomplete='off' />").attr({
+                id: this.settings.inputIdTransform(this.select.attr("id")),
+                name: this.settings.inputNameTransform(this.select.attr("name")),
+                accesskey: this.select.attr("accesskey"),
+                tabindex: this.select.attr("tabindex"),
+                style: this.select.attr("style"),
+                placeholder: this.select.attr("data-placeholder")
+            }).addClass(this.select.attr("class")).val($.trim(selected ? selected.text() : '')).css({
+                visibility: 'visible'
+            });
+
+            this.dropdown = $("<div></div>").attr({
+                id: this.settings.dropdownIdTransform(this.select.attr("id"))
+            }).addClass(this.settings.dropdownClass);
+            this.dropdownList = $("<ul></ul>");
+            this.dropdown.append(this.dropdownList);
+
+            this.select.after(this.input).hide();
+            $("body").append(this.dropdown);
+
+            $(window).on('resize', function () {
+                that.dropdown.hide();
+            });
+
+        },
+
+        wire: function () {
+            var self = this;
+
+            this.input.click(function () {
+                self.lastAbbreviation = null;
+                self.focus();
+            });
+
+            this.input.mouseup(function (event) {
+                // This is so Safari selection actually occurs.
+                event.preventDefault();
+            });
+
+            this.input.focus(function () {
+                self.abbreviationBeforeFocus = self.input.val();
+                self.input[0].setSelectionRange(0, self.input.val().length);
+                if (!self.picked) self.filterResults();
+            });
+
+            this.input.blur(function () {
+                if (!self.dropdownMouseover) {
+                    self.hide();
+                    if (self.settings.allowMismatchBlank && $.trim($(this).val()) == '')
+                        self.setValue('');
+                    else if (!self.settings.allowMismatch && !self.picked)
+                        self.reset();
+                }
+            });
+
+            this.dropdownList.mouseover(function (event) {
+                if (!self.allowMouseMove) {
+                    self.allowMouseMove = true;
+                    return;
+                }
+
+                if (event.target.tagName == "LI") {
+                    var rows = self.dropdown.find("li");
+                    self.markSelected(rows.index($(event.target)));
+                }
+            });
+            this.dropdownList.mouseleave(function () {
+                self.markSelected(-1);
+            });
+            this.dropdownList.mouseup(function (event) {
+                self.pickSelected();
+                self.focusAndHide();
+            });
+            this.dropdownList.bind("touchstart", function (event) {
+                if (event.target.tagName == "LI") {
+                    var rows = self.dropdown.find("li");
+                    self.markSelected(rows.index($(event.target)));
+                }
+            });
+            this.dropdown.mouseover(function (event) {
+                self.dropdownMouseover = true;
+            });
+            this.dropdown.mouseleave(function (event) {
+                self.dropdownMouseover = false;
+            });
+            this.dropdown.mousedown(function (event) {
+                event.preventDefault();
+            });
+
+            this.input.keyup(function (event) {
+                switch (event.keyCode) {
+                    case 13: // return
+                        event.preventDefault();
+                        self.pickSelected();
+                        self.focusAndHide();
+                        break;
+                    case 27: // esc
+                        event.preventDefault();
+                        self.reset();
+                        self.focusAndHide();
+                        break;
+                    default:
+                        self.filterResults();
+                        break;
+                }
+            });
+
+            this.input.keydown(function (event) {
+                switch (event.keyCode) {
+                    case 9:  // tab
+                        self.pickSelected();
+                        self.hide();
+                        break;
+                    case 33: // pgup
+                        event.preventDefault();
+                        self.markFirst();
+                        break;
+                    case 34: // pgedown
+                        event.preventDefault();
+                        self.markLast();
+                        break;
+                    case 38: // up
+                        event.preventDefault();
+                        self.moveSelected(-1);
+                        break;
+                    case 40: // down
+                        event.preventDefault();
+                        self.moveSelected(1);
+                        break;
+                    case 13: // return
+                    case 27: // esc
+                        event.preventDefault();
+                        event.stopPropagation();
+                        break;
+                }
+            });
+
+            var input = this.input;
+            this.select.change(function () {
+                input.val($.trim($(this).find('option:selected').text()));
+            });
+        },
+
+        filterResults: function () {
+            var showDisabled = this.settings.showDisabledOptions;
+            var abbreviation = $.trim(this.input.val());
+            var sortByMechanism = (abbreviation == "") ? this.settings.blankSortBy : this.settings.sortBy;
+            if (abbreviation == this.lastAbbreviation) return;
+
+            var results = [];
+            $.each(this.cache, function () {
+                if (this.disabled && !showDisabled) return;
+                this.score = LiquidMetal.score(this.text, abbreviation);
+                if (this.score > 0.0) results.push(this);
+            });
+            this.results = results;
+
+            this.sortResultsBy(sortByMechanism);
+            this.renderDropdown();
+            this.markFirst();
+            this.lastAbbreviation = abbreviation;
+            this.picked = false;
+            this.allowMouseMove = false;
+
+            if (this.settings.hideDropdownOnEmptyInput) {
+                if (abbreviation == "")
+                    this.dropdown.hide();
+                else
+                    this.dropdown.show();
+            }
+        },
+
+        sortResultsBy: function (mechanism) {
+            if (mechanism == "score") {
+                this.sortResultsByScore();
+            } else if (mechanism == "name") {
+                this.sortResultsByName();
+            }
+        },
+
+        sortResultsByScore: function () {
+            this.results.sort(function (a, b) { return b.score - a.score; });
+        },
+
+        sortResultsByName: function () {
+            this.results.sort(function (a, b) { return a.name < b.name ? -1 : (a.name > b.name ? 1 : 0); });
+        },
+
+        renderDropdown: function () {
+            var showDisabled = this.settings.showDisabledOptions;
+            var dropdownBorderWidth = this.dropdown.outerWidth() - this.dropdown.innerWidth();
+            var inputOffset = this.input.offset();
+            this.dropdown.css({
+                width: (this.input.outerWidth() - dropdownBorderWidth) + "px",
+                top: (inputOffset.top + this.input.outerHeight()) + "px",
+                left: inputOffset.left + "px",
+                maxHeight: ''
+            });
+
+            var html = '';
+            var disabledAttribute = '';
+            $.each(this.results, function () {
+                if (this.disabled && !showDisabled) return;
+                disabledAttribute = this.disabled ? ' class="disabled"' : '';
+                html += '<li' + disabledAttribute + '>' + this.name + '</li>';
+            });
+            this.dropdownList.html(html);
+            this.adjustMaxHeight();
+            this.dropdown.show();
+        },
+
+        adjustMaxHeight: function () {
+            var maxTop = $(window).height() + $(window).scrollTop() - this.dropdown.outerHeight();
+            var top = parseInt(this.dropdown.css('top'), 10);
+            this.dropdown.css('max-height', top > maxTop ? (Math.max(0, maxTop - top + this.dropdown.innerHeight()) + 'px') : '');
+        },
+
+        markSelected: function (n) {
+            if (n < 0 || n >= this.results.length) return;
+
+            var rows = this.dropdown.find("li");
+            rows.removeClass(this.settings.selectedClass);
+
+            var row = $(rows[n]);
+            if (row.hasClass('disabled')) {
+                this.selectedIndex = null;
+                return;
+            }
+
+            this.selectedIndex = n;
+            row.addClass(this.settings.selectedClass);
+            var top = row.position().top;
+            var delta = top + row.outerHeight() - this.dropdown.height();
+            if (delta > 0) {
+                this.allowMouseMove = false;
+                this.dropdown.scrollTop(this.dropdown.scrollTop() + delta);
+            } else if (top < 0) {
+                this.allowMouseMove = false;
+                this.dropdown.scrollTop(Math.max(0, this.dropdown.scrollTop() + top));
+            }
+        },
+
+        pickSelected: function () {
+            var selected = this.results[this.selectedIndex];
+            if (selected && !selected.disabled) {
+                this.input.val(selected.name);
+                this.setValue(selected.value);
+                this.picked = true;
+            } else if (this.settings.allowMismatch) {
+                this.setValue.val("");
+            } else {
+                this.reset();
+            }
+        },
+
+        setValue: function (val) {
+            if (this.select.val() === val) return;
+            this.select.val(val).change();
+        },
+
+        hide: function () {
+            this.dropdown.hide();
+            this.lastAbbreviation = null;
+        },
+
+        moveSelected: function (n) { this.markSelected(this.selectedIndex + n); },
+        markFirst: function () { this.markSelected(0); },
+        markLast: function () { this.markSelected(this.results.length - 1); },
+        reset: function () { this.input.val(this.abbreviationBeforeFocus); },
+        focus: function () { this.input.focus(); },
+        focusAndHide: function () { this.focus(); this.hide(); }
+    });
+
+    $.fn.flexselect = function (options) {
+        this.each(function () {
+            if ($(this).data("flexselect")) {
+                $(this).data("flexselect").reloadCache();
+            } else if (this.tagName == "SELECT") {
+                $(this).data("flexselect", new $.flexselect(this, options));
+            }
+        });
+        return this;
+    };
+})(jQuery);
