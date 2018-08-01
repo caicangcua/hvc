@@ -17,9 +17,11 @@ function layoutRender() {
 
     tbData.resolve('c', 'd');
 
-    var my_awesome_script = document.createElement('script');
-    my_awesome_script.setAttribute('src', exlink + 'jquery.flexselect.js');
-    document.head.appendChild(my_awesome_script);
+    setTimeout(function () {
+        var my_awesome_script = document.createElement('script');
+        my_awesome_script.setAttribute('src', exlink + 'jquery.flexselect.js');
+        document.head.appendChild(my_awesome_script);
+    }, 500);
 }
 
 //temp because update native apk package
