@@ -16,12 +16,6 @@ function layoutRender() {
     });
 
     tbData.resolve('c', 'd');
-
-    setTimeout(function () {
-        var my_awesome_script = document.createElement('script');
-        my_awesome_script.setAttribute('src', exlink + 'jquery.flexselect.js');
-        document.head.appendChild(my_awesome_script);
-    }, 500);
 }
 
 //temp because update native apk package
@@ -447,10 +441,6 @@ function lineDone(el) {
                 return;
             }
         });
-
-
-        $("select.flexselect").flexselect({ hideDropdownOnEmptyInput: true });
-
     };
 }
 
@@ -1079,31 +1069,13 @@ function DONE_REORDER(evt) {
         if (rd.length > 4) iV['pic'] = ((rd[4] != '') ? 'value=' + rd[4] : '');
         if (rd.length > 5) iV['notes'] = ((rd[5] != '') ? 'value=' + rd[5] : '');
 
-        var pics = ['', 'An', 'An/Tien', 'Cuong', 'Cuong/vinh', 'Dat', 'Dat/Lam', 'Dat/Dong', 'Dat/Hung', 'Dat/Vu', 'Dat-tuan', 'Diep', 'Diep/cuong', 'Dong', 'Giau', 'Giau/phong/son', 'Hau', 'Hien'
-, 'Hien/Nghiem', 'Hien/nghiem/tu', 'Hien/vu', 'Hung', 'Hung/lam', 'Hung/dat', 'Hung/Dong', 'Hung/nhac', 'Lam', 'Lam/dat/hung', 'Lam-tuan', 'Lan', 'Lan/hien', 'Lan/vu', 'Le', 'Liem', 'Liem/Tu'
-, 'Nghiem', 'Nhac', 'Nhan', 'Phong', 'PHONG/SON', 'Phuong', 'Son', 'Son/dat', 'Son/giau', 'Son/Hung', 'Son/phong', 'Son/Son', 'Tan', 'Thanh', 'Thinh/Trung', 'Thinh/Truong', 'Thinh', 'Tien', 'Tien/Tuan/An', 'Trung', 'Trung/Truong', 'Truong', 'Tu', 'Tu/Hien', 'Tu/Nghiem', 'Tu/phung', 'Tuan', 'Tuan/An', 'Tuan-dat', 'Vang', 'Vinh', 'Vinh/Diep', 'Vu', 'Vu - Lan', 'Vu/lan', 'Vu/lan/hien', 'Vu-dat']
-        var selDef = 0;
 
         var inputsHtml = [], tabIndex = 0;
         for (var i in this.params.inputs) {
-            var val = '', display = '';
+            var val = '';
             if (iV.hasOwnProperty(i)) val = iV[i];
-            if (i == 'pic') {
-                display = 'style="display:none"';
-                if ($.inArray(val, pics) == -1) {
-                    pics[pics.length - 1] = val;
-                };
-                selDef = $.inArray(val.replace('value=', ''), pics);
-            };
-            inputsHtml[inputsHtml.length] = '<label for="purePopupInputs_' + i + '">' + this.params.inputs[i] + '</label><input ' + display + val + ' maxlength="' + ((i == 'notes') ? "50" : "20") + '" id="purePopupInputs_' + i + '" name="' + i + '" type="text" tabindex="' + (tabIndex++) + '">';
+            inputsHtml[inputsHtml.length] = '<label for="purePopupInputs_' + i + '">' + this.params.inputs[i] + '</label><input ' + val + ' maxlength="' + ((i == 'notes') ? "50" : "20") + '" id="purePopupInputs_' + i + '" name="' + i + '" type="text" tabindex="' + (tabIndex++) + '">';
         };
-
-        var opts = '';
-        for (var z = 0; z < pics.length; z++) {
-            var selected = ''; if (selDef == z) { selected = 'selected="selected"'; };
-            opts += '<option value="' + pics[z] + '"' + selected + '>' + pics[z] + '</option>'
-        }
-        inputsHtml[0] += '<select id="pic" name="pic" class="flexselect" onchange="$(' + "'#purePopupInputs_pic').val($(this).val())" + '">' + opts + '</select>';
 
         var buttonsHtml = '';
         for (var i in this.params.buttons) buttonsHtml += '<span class="purePopupButton _' + i + '_">' + this.params.buttons[i] + '</span>';
