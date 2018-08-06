@@ -1,4 +1,4 @@
-﻿var url_noty = 'http://hvc.dnd.vn:8011/api/cutcaller',
+﻿var url_noty = 'http://hvc.dnd.vn:8011/cutcallerhvc/api/cutcaller',
  loader_frm, _WC, dulieuDIV = $('#dulieu'), pagination = $('#pagination'), calllogOuter = $('#calllogOuter'), calllogHEAD = $('#calllogHEAD'), calllogBODY = $('#calllogBODY')
                 , _table3 = dulieuDIV.find('.table3'), _table3SIZE = false
                 , nodataMsg = $('#nodataMsg')
