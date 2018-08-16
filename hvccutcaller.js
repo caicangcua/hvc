@@ -1,4 +1,4 @@
-﻿var url_noty = 'http://hvc.dnd.vn:8011/cutcallerhvc/api/cutcaller',
+﻿var url_api = 'http://hvchome.dnd.vn:8011/cutcallerhvc', url_noty = '';
  loader_frm, _WC, dulieuDIV = $('#dulieu'), pagination = $('#pagination'), calllogOuter = $('#calllogOuter'), calllogHEAD = $('#calllogHEAD'), calllogBODY = $('#calllogBODY')
                 , _table3 = dulieuDIV.find('.table3'), _table3SIZE = false
                 , nodataMsg = $('#nodataMsg')
@@ -10,6 +10,7 @@ function layoutRender() {
     if (typeof debugurl_noty === 'function') {
         url_noty = debugurl_noty();
     };
+    url_noty = url_api+'/api/cutcaller';
     _WC = new workScreen()
 }
 
@@ -663,7 +664,7 @@ function manage_MEMORY(CALL, isNew) {
             setTimeout(function () {
                 toastr["info"](CALL.FF_PartNo);
                 if (isDevice) {
-                    playAudio('http://hvc.dnd.vn:8011/sounds/callcoming.mp3', function () { }, null, 'new_' + CALL.MsgID);
+                    playAudio(url_api + '/sounds/callcoming.mp3', function () { }, null, 'new_' + CALL.MsgID);
                 };
             }, 1);
         };
@@ -759,7 +760,7 @@ function countupTimer() {
                         } else if (IsSpeaker == 0 && warnCounter >= 10) {
                             IsSpeaker = 1;
                             _front.find('img').attr("src", 'img/speaker.gif');
-                            playAudio('http://hvc.dnd.vn:8011/sounds/warning.mp3', suc, null, clock.attr('id'));
+                            playAudio(url_api + '/sounds/warning.mp3', suc, null, clock.attr('id'));
                         };
                     }
                 }
