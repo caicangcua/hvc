@@ -80,8 +80,6 @@ function workScreen() {
     };
     ///
     var clock = $('<div id="digitalclock"></div>').prependTo($('.jquery-page-container'));
-    $("body").append('<div id="purePopupWrap" class=""></div>');
-    //
     var pad = function (x) {
         return x < 10 ? '0' + x : x;
     };
@@ -207,9 +205,6 @@ function workScreen() {
     function stop() {
         $el.stop();
     }
-    //anim();
-    //$el.hover(stop, anim);
-
     function exeWindowResize(delay) {
         $el.stop();
         clearTimeout(resizeTimeout);
@@ -226,8 +221,6 @@ function workScreen() {
         exeWindowResize(delay);
     });
     $(window).trigger('resize');
-    //that.start_noty_timer();//check new data from server API
-
     return {
         get_noty: this.get_noty,
         start_noty_timer: this.start_noty_timer,
@@ -240,8 +233,6 @@ function () {
     return this.each(function () {
         $(this).keydown(function (e) {
             var key = e.charCode || e.keyCode || 0;
-            // allow backspace, tab, delete, enter, arrows, numbers and keypad numbers ONLY
-            // home, end, period, and numpad decimal
             return (
                 key == 8 ||
                 key == 9 ||
@@ -342,10 +333,6 @@ function lineDoneUI(el) {
                         $(this).remove(); //then remove from the DOM
                         headDonePanel.resolve();
                     });
-    //$("#headDonePanel .pricingdiv").remove();
-    //$("#donelineRow").remove()
-    //$("#headDonePanel").attr('rowspan', 1).prepend($("<span id='tasktitle'>MÃ HÀNG</span>"));
-    //$(window).trigger('resize', 0);
 }
 
 function showDoneERR() {
@@ -382,10 +369,6 @@ function lineDone(el) {
         if (dateDiff($("#inputThoiGian").val(), false) < 0) {
             msg = 'Từ giờ >(lớn) hơn Đến giờ! -->Thời gian qua ngày mới.\n\n';
         };
-        //retVal = prompt(msg + "Bất Thường? ", "");
-        //if (retVal == null) {
-        //    return;
-        //};
         PurePopup.prompt({
             rawdata: $(el).attr('data-savetmp'),//"1|1|1|tt|xx|seee",
             title: msg,
@@ -408,6 +391,9 @@ function lineDone(el) {
                 };
             }
         }, function (result) {
+            //
+            this.keepFornext = result.opt3 + "|" + result.opt2 + "|" + result.opt1 + "|" + result.srcno + "|" + result.pic + "|" + result.notes;
+            //
             if (result.confirm == 'okButton' || result.confirm == 'tmpButton' || result.confirm == 'newButton') {
                 //
                 retVal = result;
@@ -872,6 +858,7 @@ function DONE_REORDER(evt) {
 
         // For check current popup type
         this.type = 'alert';
+        this.keepFornext = "0|0|0|||";
 
         // Set default params
         this.params = {};
@@ -946,6 +933,7 @@ function DONE_REORDER(evt) {
 
     Popup.prototype.alert = function (data, cb) {
         this.type = 'alert';
+        this.setParams({}, null);
         this.params.callback = cb;
         this.params.buttons = { ok: 'Ok', cancel: 'Cancel' };
         var buttonsHtml = '<span class="purePopupButton _okButton_" onclick="DONE_REORDER()">Thực Hiện</span><span class="purePopupButton _cancelButton_">Bỏ Qua</span>';
@@ -967,13 +955,11 @@ function DONE_REORDER(evt) {
         fuck += liHTML +
 '</ol>' +
 '</div>';
-
         this.wrap.innerHTML = fuck +
                                                     buttonsHtml +
                                                 '</div>' +
                                                '</div>';
         this.show();
-
         $('.arrow.up').click(function () {
             var $current = $(this).closest('li');
             var isLoop = true;
@@ -1043,10 +1029,9 @@ function DONE_REORDER(evt) {
     Popup.prototype.confirm = function (p, c) {
         this.type = 'confirm';
         this.setParams(p, c);
-
         var buttonsHtml = '';
         for (var i in this.params.buttons) buttonsHtml += '<span class="purePopupButton _' + i + '_">' + this.params.buttons[i] + '</span>';
-
+        //
         this.wrap.innerHTML = '<div>' +
                                 '<div>' +
                                     '<div class="purePopupTitle">' + this.params.title + '</div>' +
@@ -1059,8 +1044,11 @@ function DONE_REORDER(evt) {
     Popup.prototype.prompt = function (p, c) {
         this.type = 'prompt';
         this.setParams(p, c);
-
+        //
         var iV = { 'notes': '', 'pic': '', 'srcno': '', 'opt1': '', 'opt2': '', 'opt3': '' };
+        if (p.rawdata == '0|0|0|||' || p.rawdata == '|||||') {
+            p.rawdata = this.keepFornext;
+        }
         var rd = p.rawdata.split("|");
         if (rd.length > 0) iV['opt3'] = ((rd[0] == '1') ? 'value=1 checked' : 'value=1');
         if (rd.length > 1) iV['opt2'] = ((rd[1] == '1') ? 'value=1 checked' : 'value=1');
@@ -1084,18 +1072,16 @@ function DONE_REORDER(evt) {
         inputsHtml[inputsHtml.length - 2] = '<div class="sel-div"><input type="checkbox" name="opt1" ' + iV["opt1"] + '><span>KIEM TRA SAN PHAM DAU</span></div>' +
                                             '<div class="sel-div"><input type="checkbox" name="opt2" ' + iV["opt2"] + '><span>HUONG SO VAI CUA CHI TIET</span></div>' +
                                             '<div class="sel-div endinput"><input type="checkbox" name="opt3" ' + iV["opt3"] + '><span>KIEM TRA HUONG SILICON</span></div>';
-
-        //
         this.wrap.innerHTML = '<div>' +
-                                '<div>' +
-                                    ((this.params.title != '') ? ('<div class="purePopupTitle">' + this.params.title + '</div>') : '') +
-                                    inputsHtml.join('') +
-                                    buttonsHtml +
-                                '</div>' +
-                               '</div>';
+                '<div>' +
+                    ((this.params.title != '') ? ('<div class="purePopupTitle">' + this.params.title + '</div>') : '') +
+                    inputsHtml.join('') +
+                    buttonsHtml +
+                '</div>' +
+               '</div>';
+
         this.show();
     }
-
     window.PurePopup = new Popup();
 }());
 
